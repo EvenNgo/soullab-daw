@@ -320,6 +320,56 @@
     .pill { font-family: var(--mono); font-size: 12px; padding: 3px 8px; border-radius: 6px; background: var(--panel); border: 1px solid var(--line); }
     .pill b { color: var(--accent); font-weight: 600; }
 
+    /* ---------- Lộ trình ---------- */
+    .course { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 24px; align-items: start; }
+    .syllabus { position: sticky; top: calc(76px + env(safe-area-inset-top, 0px)); display: grid; gap: 18px; }
+    .progress-line { display: grid; gap: 6px; font-size: 12px; color: var(--muted); }
+    .progress-track { height: 4px; border-radius: 4px; background: var(--line); overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--accent); width: 0; transition: width .3s; }
+    .chapter p { margin: 0 0 6px; }
+    .chapter ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+    .lesson-link {
+      width: 100%; text-align: left; border: 0; background: none; padding: 7px 10px; border-radius: 8px;
+      display: grid; grid-template-columns: 18px 1fr; gap: 8px; align-items: center; color: var(--muted); font-size: 13px;
+    }
+    .lesson-link:hover { color: var(--fg); background: var(--sunken); }
+    .lesson-link[aria-current="true"] { color: var(--fg); background: var(--sunken); font-weight: 500; }
+    .lesson-dot { width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid var(--line-strong); display: grid; place-items: center; font-size: 10px; font-family: var(--mono); }
+    .lesson-link.done .lesson-dot { background: var(--ok); border-color: var(--ok); color: #fff; }
+    @media (max-width: 860px) {
+      .course { grid-template-columns: 1fr; }
+      .syllabus { position: static; max-height: 260px; overflow-y: auto; padding: 14px; border: 1px solid var(--line); border-radius: 14px; background: var(--panel); }
+    }
+    .lesson { display: grid; gap: 16px; min-width: 0; }
+    .eyebrow { font-size: 12px; color: var(--muted); font-family: var(--mono); }
+    .theory { font-size: 15px; line-height: 1.7; }
+    .theory p { margin: 0 0 12px; max-width: 68ch; }
+    .theory p:last-child { margin-bottom: 0; }
+    .theory b { font-weight: 600; }
+    .theory code, .daw-steps code { font-family: var(--mono); font-size: 13px; background: var(--sunken); padding: 1px 5px; border-radius: 4px; }
+    .formula { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 14px; }
+    .formula span { font-family: var(--mono); font-size: 13px; padding: 4px 10px; border-radius: 6px; background: var(--sunken); }
+    .formula span.k { background: var(--accent-soft); color: var(--accent); }
+    .demo-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+    .practice-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+    .dots { display: flex; gap: 5px; align-items: center; font-size: 12px; color: var(--muted); }
+    .dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--line-strong); }
+    .dots i.on { background: var(--ok); }
+    .step-practice { display: grid; grid-template-columns: repeat(16, minmax(0, 1fr)); gap: 4px; }
+    @media (max-width: 640px) { .step-practice { grid-template-columns: repeat(8, minmax(0, 1fr)); } }
+    .step-practice button { height: 40px; border-radius: 6px; border: 1px solid var(--line); background: var(--sunken); font-family: var(--mono); font-size: 10px; color: var(--faint); padding: 0; }
+    .step-practice button.beat { border-color: var(--line-strong); color: var(--muted); }
+    .step-practice button[aria-pressed="true"] { background: var(--ok); border-color: var(--ok); color: #fff; }
+    .choice-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+    @media (max-width: 480px) { .choice-grid { grid-template-columns: 1fr; } }
+    .choice-grid .opt.right { border-color: var(--ok); box-shadow: inset 0 0 0 1px var(--ok); }
+    .choice-grid .opt.wrong { border-color: var(--bad); box-shadow: inset 0 0 0 1px var(--bad); }
+    .daw-steps { margin: 0; padding-left: 20px; display: grid; gap: 8px; font-size: 14px; }
+    .daw-steps li { padding-left: 4px; }
+    .daw-steps li::marker { font-family: var(--mono); color: var(--faint); font-size: 12px; }
+    .lesson-nav { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+    .done-banner { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 14px 16px; border-radius: var(--r); background: var(--ok-soft); color: var(--ok); font-weight: 500; margin-top: 16px; }
+
     /* ---------- Toast ---------- */
     #toasts {
       position: fixed; z-index: 60; display: grid; gap: 8px; pointer-events: none;
@@ -341,7 +391,8 @@
     <div class="wrap bar">
       <div class="brand"><div class="brand-mark"><span></span></div><span class="brand-name">SoulLab</span></div>
       <nav class="tabs" role="tablist">
-        <button class="tab" role="tab" data-tab="lab" aria-selected="true">Hợp âm &amp; Thang âm</button>
+        <button class="tab" role="tab" data-tab="learn" aria-selected="true">Lộ trình</button>
+        <button class="tab" role="tab" data-tab="lab" aria-selected="false">Hợp âm &amp; Thang âm</button>
         <button class="tab" role="tab" data-tab="loop" aria-selected="false">Vòng hợp âm</button>
         <button class="tab" role="tab" data-tab="trainer" aria-selected="false">Luyện tập</button>
       </nav>
@@ -357,8 +408,71 @@
 
   <main class="wrap">
 
+    <!-- ============ TAB 0: LỘ TRÌNH HỌC ============ -->
+    <section id="tab-learn" class="view">
+      <div class="course">
+        <aside class="syllabus" aria-label="Danh sách bài học">
+          <div class="progress-line">
+            <span><b id="course-done-count" style="color:var(--fg)">0</b> / <span id="course-total">0</span> bài đã xong</span>
+            <div class="progress-track"><div id="course-progress" class="progress-fill"></div></div>
+          </div>
+          <div id="syllabus-list" style="display:grid;gap:18px"></div>
+        </aside>
+
+        <article class="lesson">
+          <div>
+            <div id="lesson-eyebrow" class="eyebrow"></div>
+            <h1 id="lesson-title" style="margin-top:6px"></h1>
+          </div>
+
+          <div class="card">
+            <p class="label">Lý thuyết</p>
+            <div id="lesson-theory" class="theory"></div>
+            <div id="lesson-demos" class="demo-row"></div>
+          </div>
+
+          <div class="card">
+            <div class="practice-head">
+              <h2>Thực hành</h2>
+              <div id="practice-dots" class="dots"></div>
+            </div>
+            <div class="question">
+              <div class="q-meta"><span id="practice-tag">Câu hỏi</span><span id="practice-picked" class="mono"></span></div>
+              <h3 id="practice-prompt"></h3>
+              <p id="practice-hint" class="hint"></p>
+              <div><button id="practice-hear" type="button" class="btn accent" hidden><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4v16l13-8z"/></svg>Nghe câu hỏi</button></div>
+            </div>
+            <div id="practice-keys" class="kb-scroll"><div id="learn-keyboard" class="kb" style="min-width:640px;height:170px"></div></div>
+            <div id="practice-steps" class="kb-scroll" hidden><div id="learn-steps" class="step-practice"></div></div>
+            <div id="practice-choices" class="choice-grid" hidden></div>
+            <div id="practice-actions" class="actions" style="margin-top:14px">
+              <button id="practice-check" type="button" class="btn primary">Kiểm tra</button>
+              <button id="practice-listen" type="button" class="btn">Nghe phần đã chọn</button>
+              <button id="practice-clear" type="button" class="btn ghost">Xoá chọn</button>
+              <button id="practice-skip" type="button" class="btn ghost">Câu khác ↻</button>
+            </div>
+            <div id="practice-feedback" class="feedback" hidden></div>
+            <div id="practice-done" class="done-banner" hidden>
+              <span>Hoàn thành bài này.</span>
+              <button id="practice-next-lesson" type="button" class="btn sm">Sang bài tiếp →</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <p class="label">Làm trên DAW</p>
+            <ol id="lesson-daw" class="daw-steps"></ol>
+          </div>
+
+          <div class="lesson-nav">
+            <button id="lesson-prev" type="button" class="btn">← Bài trước</button>
+            <button id="lesson-next" type="button" class="btn">Bài sau →</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
     <!-- ============ TAB 1: HỢP ÂM & THANG ÂM ============ -->
-    <section id="tab-lab" class="view">
+    <section id="tab-lab" class="view" hidden>
       <div class="view-head">
         <div>
           <h1>Hợp âm &amp; Thang âm</h1>
@@ -870,7 +984,7 @@
         osc.start(time); osc.stop(time + durationSec + 0.03);
       }
 
-      playKick(time) {
+      playKick(time, vel = 1) {
         this.init();
         const osc = this.ctx.createOscillator();
         const gain = this.ctx.createGain();
@@ -878,7 +992,7 @@
         osc.frequency.setValueAtTime(145, time);
         osc.frequency.exponentialRampToValueAtTime(46, time + 0.09);
         osc.frequency.exponentialRampToValueAtTime(36, time + 0.28);
-        gain.gain.setValueAtTime(0.75, time);
+        gain.gain.setValueAtTime(0.75 * vel, time);
         gain.gain.exponentialRampToValueAtTime(0.001, time + 0.32);
         osc.connect(gain); gain.connect(this.compressor);
         osc.start(time); osc.stop(time + 0.34);
@@ -892,7 +1006,7 @@
         return buffer;
       }
 
-      playSnare(time) {
+      playSnare(time, vel = 1) {
         this.init();
         const noise = this.ctx.createBufferSource();
         noise.buffer = this.noiseBuffer(0.2);
@@ -901,7 +1015,7 @@
         filter.frequency.setValueAtTime(2200, time);
         filter.Q.setValueAtTime(0.9, time);
         const noiseGain = this.ctx.createGain();
-        noiseGain.gain.setValueAtTime(0.38, time);
+        noiseGain.gain.setValueAtTime(0.38 * vel, time);
         noiseGain.gain.exponentialRampToValueAtTime(0.001, time + 0.18);
         noise.connect(filter); filter.connect(noiseGain); noiseGain.connect(this.compressor);
 
@@ -910,7 +1024,7 @@
         snapOsc.frequency.setValueAtTime(210, time);
         snapOsc.frequency.exponentialRampToValueAtTime(115, time + 0.07);
         const snapGain = this.ctx.createGain();
-        snapGain.gain.setValueAtTime(0.35, time);
+        snapGain.gain.setValueAtTime(0.35 * vel, time);
         snapGain.gain.exponentialRampToValueAtTime(0.001, time + 0.09);
         snapOsc.connect(snapGain); snapGain.connect(this.compressor);
 
@@ -932,6 +1046,105 @@
         noise.start(time);
       }
     }
+
+    // Các nhạc cụ thêm cho phần Lộ trình: guitar (Karplus-Strong), đàn dây, 808, tom, crash
+    Object.assign(SoulAudioEngine.prototype, {
+      playPluck(midi, delaySec = 0, durationSec = 1.6, velocity = 0.8, tone = 5000, decay = 0.996) {
+        this.init();
+        const sr = this.ctx.sampleRate;
+        const period = Math.max(2, Math.round(sr / this.midiToFreq(midi)));
+        const len = Math.floor(sr * durationSec);
+        const buffer = this.ctx.createBuffer(1, len, sr);
+        const d = buffer.getChannelData(0);
+        for (let i = 0; i < period && i < len; i++) d[i] = Math.random() * 2 - 1;
+        for (let i = period; i < len; i++) d[i] = decay * 0.5 * (d[i - period] + d[i - period + 1]);
+        const src = this.ctx.createBufferSource();
+        src.buffer = buffer;
+        const lp = this.ctx.createBiquadFilter();
+        lp.type = 'lowpass';
+        lp.frequency.value = tone;
+        const g = this.ctx.createGain();
+        const t = this.ctx.currentTime + Math.max(0, delaySec);
+        g.gain.setValueAtTime(0.55 * velocity, t);
+        g.gain.setTargetAtTime(0.0001, t + durationSec * 0.7, durationSec * 0.12);
+        src.connect(lp); lp.connect(g); g.connect(this.compressor);
+        src.start(t);
+      },
+      playStringNote(midi, delaySec = 0, durationSec = 2.5, velocity = 0.6, attack = 0.25, release = 0.45) {
+        this.init();
+        const t = this.ctx.currentTime + Math.max(0, delaySec);
+        const freq = this.midiToFreq(midi);
+        const g = this.ctx.createGain();
+        const lp = this.ctx.createBiquadFilter();
+        lp.type = 'lowpass';
+        lp.frequency.setValueAtTime(Math.min(4200, freq * 6), t);
+        const lfo = this.ctx.createOscillator();
+        const lfoGain = this.ctx.createGain();
+        lfo.frequency.value = 5.2;
+        lfoGain.gain.value = 5;
+        lfo.connect(lfoGain);
+        const end = t + durationSec + release + 0.05;
+        [-7, 7].forEach((det) => {
+          const o = this.ctx.createOscillator();
+          o.type = 'sawtooth';
+          o.frequency.setValueAtTime(freq, t);
+          o.detune.setValueAtTime(det, t);
+          lfoGain.connect(o.detune);
+          o.connect(lp);
+          o.start(t); o.stop(end);
+        });
+        const peak = 0.09 * velocity;
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.linearRampToValueAtTime(peak, t + attack);
+        g.gain.setValueAtTime(peak, t + Math.max(attack, durationSec));
+        g.gain.linearRampToValueAtTime(0.0001, t + Math.max(attack, durationSec) + release);
+        lp.connect(g); g.connect(this.compressor);
+        lfo.start(t); lfo.stop(end);
+      },
+      play808(midi, delaySec = 0, durationSec = 1.2, glideTo = null) {
+        this.init();
+        const t = this.ctx.currentTime + Math.max(0, delaySec);
+        const o = this.ctx.createOscillator();
+        const g = this.ctx.createGain();
+        o.type = 'sine';
+        o.frequency.setValueAtTime(this.midiToFreq(midi) * 2.2, t);
+        o.frequency.exponentialRampToValueAtTime(this.midiToFreq(midi), t + 0.05);
+        if (glideTo !== null) {
+          o.frequency.setValueAtTime(this.midiToFreq(midi), t + durationSec * 0.5);
+          o.frequency.exponentialRampToValueAtTime(this.midiToFreq(glideTo), t + durationSec * 0.5 + 0.12);
+        }
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.linearRampToValueAtTime(0.7, t + 0.01);
+        g.gain.setTargetAtTime(0.0001, t + durationSec * 0.8, durationSec * 0.15);
+        o.connect(g); g.connect(this.compressor);
+        o.start(t); o.stop(t + durationSec + 0.4);
+      },
+      playTom(time, freq = 160, vel = 1) {
+        this.init();
+        const o = this.ctx.createOscillator();
+        const g = this.ctx.createGain();
+        o.type = 'sine';
+        o.frequency.setValueAtTime(freq * 1.6, time);
+        o.frequency.exponentialRampToValueAtTime(freq, time + 0.12);
+        g.gain.setValueAtTime(0.55 * vel, time);
+        g.gain.exponentialRampToValueAtTime(0.001, time + 0.38);
+        o.connect(g); g.connect(this.compressor);
+        o.start(time); o.stop(time + 0.4);
+      },
+      playCrash(time) {
+        this.init();
+        const n = this.ctx.createBufferSource();
+        n.buffer = this.noiseBuffer(1.6);
+        const hp = this.ctx.createBiquadFilter();
+        hp.type = 'highpass';
+        hp.frequency.value = 5200;
+        const g = this.ctx.createGain();
+        g.gain.setValueAtTime(0.22, time);
+        g.gain.exponentialRampToValueAtTime(0.001, time + 1.5);
+        n.connect(hp); hp.connect(g); g.connect(this.compressor);
+        n.start(time);
+      }
+    });
 
     const audio = new SoulAudioEngine();
 
@@ -1707,12 +1920,1174 @@
     }
 
     /*************************************************************************
+     * 7b. LỘ TRÌNH HỌC: LÝ THUYẾT + THỰC HÀNH + LÀM TRÊN DAW
+     *************************************************************************/
+    const pcOf = (m) => ((m % 12) + 12) % 12;
+    const nn = (i) => NOTE_NAMES[pcOf(i)];
+    const chordPcs = (root, id) => CHORD_LIBRARY[id].degrees.map((d) => pcOf(root + d.semi));
+    const chordLabel = (root, id) => nn(root) + CHORD_LIBRARY[id].symbol;
+    const MAJOR_SCALE = [0, 2, 4, 5, 7, 9, 11];
+    const SOLFEGE = { 0: 'Đô', 2: 'Rê', 4: 'Mi', 5: 'Fa', 7: 'Sol', 9: 'La', 11: 'Si' };
+    const INV_NAMES = ['thế gốc', 'đảo 1', 'đảo 2'];
+
+    function setEq(a, b) {
+      const A = new Set(a), B = new Set(b);
+      return A.size === B.size && [...A].every((x) => B.has(x));
+    }
+    function playSeq(midis, gap = 0.3) { midis.forEach((m, i) => audio.playRhodesNote(m, i * gap, 1.0, 0.8)); }
+    function playTogether(midis) { audio.playChord(midis, 30, 1.8); }
+    function playChordsInRow(list, gap = 1.1) {
+      list.forEach((midis, i) => midis.forEach((m, j) => audio.playRhodesNote(m, i * gap + j * 0.025, gap + 0.3, 0.72)));
+    }
+    // Hợp âm 3 nốt ở thế gốc/đảo, bắt đầu từ quãng tám base
+    function triadMidis(root, id, inv = 0, base = 48) {
+      const notes = CHORD_LIBRARY[id].degrees.slice(0, 3).map((d) => base + pcOf(root) + d.semi);
+      for (let i = 0; i < inv; i++) notes.push(notes.shift() + 12);
+      return notes;
+    }
+    // Tổng quãng đường các ngón di chuyển giữa hai thế bấm 3 nốt
+    function movement(a, b) {
+      const x = [...a].sort((p, q) => p - q), y = [...b].sort((p, q) => p - q);
+      return x.reduce((sum, v, i) => sum + Math.abs(v - y[i]), 0);
+    }
+    function bestVoiceLeading(from, root, id) {
+      let best = null;
+      for (let base = 36; base <= 60; base += 12) {
+        for (let inv = 0; inv < 3; inv++) {
+          const v = triadMidis(root, id, inv, base);
+          if (Math.min(...v) < 45 || Math.max(...v) > 76) continue;
+          const mv = movement(from, v);
+          if (!best || mv < best.mv) best = { v, mv, inv };
+        }
+      }
+      return best;
+    }
+    function playDrumCells(cells, kind, bars = 2) {
+      audio.init();
+      const t0 = audio.ctx.currentTime + 0.06;
+      const six = 60 / 90 / 4;
+      for (let i = 0; i < 16 * bars; i++) {
+        const s = i % 16, t = t0 + i * six;
+        if (cells.has(s)) {
+          if (kind === 'kick') audio.playKick(t);
+          else if (kind === 'snare') audio.playSnare(t, s >= 12 ? 1 : 0.75);
+          else if (kind === 'strum') strumGuitar(GUITAR_CHORDS.G, t - audio.ctx.currentTime, s % 4 === 0);
+          else audio.playHiHat(t, s % 4 === 0);
+        }
+        if ((kind === 'kick' || kind === 'snare') && s % 2 === 0) audio.playHiHat(t, false);
+        if (kind === 'strum' && s % 4 === 0) audio.playHiHat(t, s === 0);
+      }
+    }
+    function goLab({ root, id, scale = false, voicing }) {
+      if (labState.isScale !== scale) setLabMode(scale);
+      labState.rootIndex = root;
+      labState.selectedId = id;
+      if (voicing) labState.voicing = voicing;
+      renderFormulaSelector();
+      updateLabUI();
+      location.hash = 'lab';
+      window.scrollTo(0, 0);
+    }
+    function goTab(tab) { location.hash = tab; window.scrollTo(0, 0); }
+    const formula = (items) => `<div class="formula">${items.map((x) => `<span${x.k ? ' class="k"' : ''}>${x.t || x}</span>`).join('')}</div>`;
+
+    const COURSE_BASE = [
+      {
+        chapter: 'Nền tảng',
+        lessons: [
+          {
+            id: 'keys', title: 'Bàn phím và tên nốt',
+            theory: `<p>Bàn phím lặp lại theo từng nhóm <b>12 phím</b>: 7 phím trắng và 5 phím đen. Bảy phím trắng mang tên <code>C D E F G A B</code>, tức Đô Rê Mi Fa Sol La Si.</p>
+              <p>Mẹo tìm nhanh: <b>C luôn nằm ngay bên trái nhóm 2 phím đen</b>. Phím đen lấy tên phím trắng bên cạnh kèm dấu: <code>#</code> (thăng, cao hơn) hoặc <code>b</code> (giáng, thấp hơn). Phím đen giữa C và D vừa là C#, vừa là Db.</p>
+              <p>Từ một nốt C đến nốt C kế tiếp là một <b>quãng tám</b>. Trong DAW, C3, C4, C5 là cùng nốt C ở các quãng tám khác nhau.</p>`,
+            demos: [
+              { label: 'Nghe 7 phím trắng', run: () => playSeq([60, 62, 64, 65, 67, 69, 71]) },
+              { label: 'Nghe cả 12 phím', run: () => playSeq([60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71], 0.2) }
+            ],
+            gen() {
+              const pc = Math.floor(Math.random() * 12);
+              return {
+                tag: 'Tìm nốt', mode: 'single',
+                prompt: `Bấm một phím <span class="hl">${nn(pc)}</span>${SOLFEGE[pc] ? ` (${SOLFEGE[pc]})` : ''}`,
+                hint: 'Quãng tám nào cũng được. Nhớ: C nằm bên trái nhóm 2 phím đen.',
+                check: (sel) => ({ ok: sel.length === 1 && pcOf(sel[0]) === pc, explain: `Nốt ${nn(pc)} ở quãng 3 là phím ${midiToNoteLabel(48 + pc)}.` }),
+                answer: [48 + pc]
+              };
+            },
+            daw: [
+              'Mở piano roll: FL Studio bấm F7, Ableton và Logic nhấp đúp vào một clip/region MIDI.',
+              'Cột bàn phím dọc bên trái chính là bàn phím này xoay ngang. Mỗi hàng là một phím.',
+              'Vẽ lần lượt C D E F G A B rồi bấm Play để nghe.',
+              'Lưu ý: mỗi DAW đánh số quãng tám hơi khác (FL Studio gọi C giữa là C5, Ableton gọi là C3). Nốt vẫn là một.'
+            ]
+          },
+          {
+            id: 'intervals', title: 'Bán cung và quãng',
+            theory: `<p><b>Bán cung</b> là khoảng cách giữa hai phím sát nhau, tính cả phím đen. Đây là đơn vị đo của mọi thứ trong nhạc lý, và trong piano roll mỗi bán cung đúng bằng một hàng.</p>
+              <p><b>Quãng</b> là khoảng cách giữa hai nốt, đếm bằng bán cung:</p>
+              ${formula(['2 · quãng 2', { t: '3 · quãng 3 thứ', k: 1 }, { t: '4 · quãng 3 trưởng', k: 1 }, '5 · quãng 4', '7 · quãng 5', '9 · quãng 6', '10 · quãng 7 thứ', '11 · quãng 7 trưởng', '12 · quãng 8'])}
+              <p>Quãng 3 thứ (3 bán cung) nghe buồn, quãng 3 trưởng (4 bán cung) nghe sáng. Đây là gốc rễ của hợp âm thứ và hợp âm trưởng ở chương sau.</p>`,
+            demos: [
+              { label: 'Quãng 3 thứ C–Eb', run: () => playSeq([60, 63, 60, 63], 0.35) },
+              { label: 'Quãng 3 trưởng C–E', run: () => playSeq([60, 64, 60, 64], 0.35) },
+              { label: 'Quãng 5 C–G', run: () => playSeq([60, 67, 60, 67], 0.35) }
+            ],
+            gen() {
+              const root = pick([0, 2, 4, 5, 7, 9]);
+              const iv = pick([
+                { n: 'quãng 2', s: 2 }, { n: 'quãng 3 thứ', s: 3 }, { n: 'quãng 3 trưởng', s: 4 }, { n: 'quãng 4', s: 5 },
+                { n: 'quãng 5', s: 7 }, { n: 'quãng 6', s: 9 }, { n: 'quãng 7 thứ', s: 10 }, { n: 'quãng 7 trưởng', s: 11 }, { n: 'quãng 8', s: 12 }
+              ]);
+              const rm = 48 + root;
+              return {
+                tag: 'Đếm bán cung', mode: 'single', given: [rm],
+                prompt: `Từ nốt <span class="hl">${nn(root)}</span> (phím cam), bấm nốt cao hơn một <span class="hl2">${iv.n}</span>`,
+                hint: `Đếm lên ${iv.s} bán cung, tính cả phím đen.`,
+                check: (sel) => ({ ok: sel.length === 1 && sel[0] - rm === iv.s, explain: `${nn(root)} + ${iv.s} bán cung = ${nn(root + iv.s)}.` }),
+                answer: [rm, rm + iv.s], play: 'seq'
+              };
+            },
+            daw: [
+              'Trong piano roll, đếm hàng chính là đếm bán cung.',
+              'Vẽ nốt C, rồi vẽ một nốt cách 4 hàng phía trên (E). Play để nghe quãng 3 trưởng.',
+              'Kéo nốt E xuống 1 hàng thành Eb, nghe lại: quãng 3 thứ, buồn hơn hẳn.',
+              'Trong Ableton: chọn nốt, bấm ↑/↓ để dịch 1 bán cung, Shift + ↑/↓ để dịch 1 quãng tám.'
+            ]
+          },
+          {
+            id: 'major-scale', title: 'Âm giai trưởng',
+            theory: `<p>Âm giai trưởng gồm 7 nốt xếp theo công thức khoảng cách <b>Cung – Cung – Nửa – Cung – Cung – Cung – Nửa</b> (cung = 2 bán cung, nửa = 1):</p>
+              ${formula([{ t: '1', k: 1 }, '+2', '+2', '+1', '+2', '+2', '+2', '+1'])}
+              <p>Bắt đầu từ C sẽ ra <code>C D E F G A B</code>, toàn phím trắng. Bắt đầu từ G thì phải dùng F# để giữ đúng công thức.</p>
+              <p>Âm giai trưởng là <b>thước đo</b> của cả khoá học: bậc 3, bậc 7, bậc 9 của hợp âm đều tính theo âm giai trưởng của nốt gốc. Biết bài hát ở giọng nào là biết những nốt nào "an toàn" để viết giai điệu và bass.</p>`,
+            demos: [
+              { label: 'Nghe C trưởng', run: () => playSeq([48, 50, 52, 53, 55, 57, 59, 60], 0.25) },
+              { label: 'Nghe G trưởng', run: () => playSeq([55, 57, 59, 60, 62, 64, 66, 67], 0.25) },
+              { label: 'Mở trong phòng lab', run: () => goLab({ root: 0, id: 'Major', scale: true }) }
+            ],
+            gen() {
+              const root = pick([0, 7, 2, 5, 9, 4]);
+              const pcs = MAJOR_SCALE.map((s) => pcOf(root + s));
+              return {
+                tag: 'Dựng âm giai', mode: 'multi', given: [48 + root],
+                prompt: `Bấm đủ 7 nốt của âm giai <span class="hl">${nn(root)} trưởng</span>`,
+                hint: 'Bắt đầu từ phím cam, đi theo 2-2-1-2-2-2-1. Mỗi nốt bấm một lần, quãng tám nào cũng được.',
+                check: (sel) => ({ ok: setEq(sel.map(pcOf), pcs), explain: `${nn(root)} trưởng: <span class="mono">${pcs.map(nn).join(' ')}</span>` }),
+                answer: MAJOR_SCALE.map((s) => 48 + root + s), play: 'seq'
+              };
+            },
+            daw: [
+              'Bật tô sáng âm giai trong piano roll (Ableton: Scale, FL Studio: Scale highlighting, Logic: Scale Quantize), chọn Major và nốt gốc.',
+              'DAW sẽ tô sẵn các hàng thuộc âm giai. Vẽ một giai điệu 4 ô nhịp chỉ dùng hàng được tô: không thể sai nốt.',
+              'Đổi nốt gốc sang giọng khác và nghe cùng giai điệu đó được dịch giọng.'
+            ]
+          }
+        ]
+      },
+      {
+        chapter: 'Hợp âm',
+        lessons: [
+          {
+            id: 'triads', title: 'Hợp âm trưởng và thứ',
+            theory: `<p>Hợp âm là 3 nốt trở lên vang cùng lúc, xếp chồng cách nhau một quãng 3. Hai loại cơ bản nhất:</p>
+              ${formula([{ t: 'Trưởng: 1 · 3 · 5', k: 1 }, 'gốc, +4, +7', { t: 'Thứ: 1 · b3 · 5', k: 1 }, 'gốc, +3, +7'])}
+              <p>Hai hợp âm chỉ khác nhau đúng <b>một nốt</b> (bậc 3) lệch nửa cung, nhưng cảm xúc khác hẳn. Mẹo trên phím: trưởng là "4 rồi 3" bán cung, thứ là "3 rồi 4".</p>`,
+            demos: [
+              { label: 'Nghe C', run: () => playTogether(triadMidis(0, 'Major')) },
+              { label: 'Nghe Cm', run: () => playTogether(triadMidis(0, 'Minor')) },
+              { label: 'So sánh A rồi Am', run: () => playChordsInRow([triadMidis(9, 'Major'), triadMidis(9, 'Minor')], 1.4) }
+            ],
+            gen() {
+              const root = pick([0, 2, 4, 5, 7, 9, 10, 3, 8]);
+              const id = pick(['Major', 'Minor']);
+              return {
+                tag: 'Dựng hợp âm', mode: 'multi',
+                prompt: `Bấm hợp âm <span class="hl">${chordLabel(root, id)}</span>`,
+                hint: `${CHORD_LIBRARY[id].name}: ${id === 'Major' ? 'gốc, +4, +7' : 'gốc, +3, +7'}.`,
+                check: (sel) => ({ ok: setEq(sel.map(pcOf), chordPcs(root, id)), explain: `${chordLabel(root, id)} = <span class="mono">${chordPcs(root, id).map(nn).join(' ')}</span>` }),
+                answer: triadMidis(root, id)
+              };
+            },
+            daw: [
+              'Vẽ 3 nốt chồng lên nhau ở cùng một vị trí thời gian: C3 E3 G3 là hợp âm C.',
+              'Kéo nốt E xuống 1 hàng thành Eb: hợp âm Cm. Nghe sự khác biệt.',
+              'Copy hợp âm sang ô nhịp sau rồi dịch cả khối lên 5 hàng: bạn có hợp âm F.'
+            ]
+          },
+          {
+            id: 'sevenths', title: 'Hợp âm 7',
+            theory: `<p>Thêm <b>bậc 7</b> lên trên hợp âm 3 nốt sẽ được hợp âm 4 nốt. Đây là âm thanh chủ đạo của R&B, Neo-soul và Lo-fi.</p>
+              ${formula([{ t: 'Maj7: 0 4 7 11', k: 1 }, { t: 'm7: 0 3 7 10', k: 1 }, { t: '7: 0 4 7 10', k: 1 }])}
+              <p><b>Maj7</b> nghe mơ màng, sang. <b>m7</b> ấm và mềm. <b>7</b> (át 7) căng, như muốn đi về hợp âm chủ. Mẹo: bậc 7 trưởng nằm ngay dưới nốt gốc nửa cung, b7 nằm dưới nốt gốc 2 bán cung.</p>`,
+            demos: [
+              { label: 'CMaj7', run: () => playTogether([48, 52, 55, 59]) },
+              { label: 'Cm7', run: () => playTogether([48, 51, 55, 58]) },
+              { label: 'C7', run: () => playTogether([48, 52, 55, 58]) }
+            ],
+            gen() {
+              const root = pick([0, 2, 4, 5, 7, 9, 10, 3]);
+              const id = pick(['Maj7', 'm7', 'Dom7']);
+              return {
+                tag: 'Dựng hợp âm 7', mode: 'multi',
+                prompt: `Bấm hợp âm <span class="hl">${chordLabel(root, id)}</span>`,
+                hint: `${CHORD_LIBRARY[id].name}, 4 nốt: ${CHORD_LIBRARY[id].degrees.map((d) => d.label).join(' · ')}.`,
+                check: (sel) => ({ ok: setEq(sel.map(pcOf), chordPcs(root, id)), explain: `${chordLabel(root, id)} = <span class="mono">${chordPcs(root, id).map(nn).join(' ')}</span>` }),
+                answer: CHORD_LIBRARY[id].degrees.map((d) => 48 + root + d.semi)
+              };
+            },
+            daw: [
+              'Từ hợp âm 3 nốt ở bài trước, thêm một nốt phía trên: Maj7 là nốt gốc của quãng tám trên lùi 1 hàng, b7 là lùi 2 hàng.',
+              'Thay mọi hợp âm trong một vòng bằng bản có 7: thường nghe ra chất R&B ngay.',
+              'Giảm velocity nốt bậc 7 một chút để nó hoà vào nền, không chói.'
+            ]
+          },
+          {
+            id: 'inversions', title: 'Đảo hợp âm',
+            theory: `<p>Cùng 3 nốt C, E, G nhưng nốt nào nằm <b>dưới cùng</b> sẽ quyết định "thế" của hợp âm:</p>
+              ${formula([{ t: 'Thế gốc: C E G', k: 1 }, 'Đảo 1: E G C', 'Đảo 2: G C E'])}
+              <p>Đảo 1 đưa nốt gốc lên một quãng tám nên bậc 3 nằm dưới. Đảo 2 đưa tiếp bậc 3 lên, còn bậc 5 nằm dưới. Tên hợp âm không đổi, chỉ đổi màu và vị trí tay. Ký hiệu <code>C/E</code> nghĩa là hợp âm C có nốt E ở dưới cùng.</p>
+              <p>Producer đảo hợp âm để <b>tay không phải nhảy xa</b>, để các hợp âm nối nhau mượt (bài Voice leading), và để giữ phần hợp âm trong một vùng cao độ không bị đục.</p>`,
+            demos: [
+              { label: 'C thế gốc → đảo 1 → đảo 2', run: () => playChordsInRow([triadMidis(0, 'Major', 0), triadMidis(0, 'Major', 1), triadMidis(0, 'Major', 2)]) },
+              { label: 'Mở trong phòng lab', run: () => goLab({ root: 0, id: 'Major', voicing: 'inv1' }) }
+            ],
+            gen() {
+              const root = pick([0, 2, 4, 5, 7, 9]);
+              const id = pick(['Major', 'Minor']);
+              const inv = pick([0, 1, 2, 1, 2]);
+              const pcs = chordPcs(root, id).slice(0, 3);
+              const bass = pcs[inv];
+              const v = triadMidis(root, id, inv);
+              return {
+                tag: 'Đảo hợp âm', mode: 'multi',
+                prompt: `Bấm <span class="hl">${chordLabel(root, id)}</span> ở <span class="hl2">${INV_NAMES[inv]}</span>`,
+                hint: 'Thế gốc: nốt gốc dưới cùng · Đảo 1: bậc 3 dưới cùng · Đảo 2: bậc 5 dưới cùng.',
+                check: (sel) => {
+                  const low = Math.min(...sel);
+                  const ok = sel.length === 3 && setEq(sel.map(pcOf), pcs) && pcOf(low) === bass;
+                  return { ok, explain: `${chordLabel(root, id)} ${INV_NAMES[inv]} = <span class="mono">${v.map(nn).join(' ')}</span>, nốt <b>${nn(bass)}</b> nằm dưới cùng.` };
+                },
+                answer: v
+              };
+            },
+            daw: [
+              'Vẽ C E G. Chọn nốt thấp nhất (C) và đẩy lên 12 hàng: bạn có đảo 1.',
+              'Làm tiếp với nốt E: đảo 2.',
+              'Nghe 3 thế liền nhau: cùng một hợp âm nhưng sáng dần lên.',
+              'Ở tab Hợp âm & Thang âm, chọn Đảo 1 hoặc Đảo 2 rồi bấm MIDI để lấy sẵn file.'
+            ]
+          },
+          {
+            id: 'diatonic', title: 'Hợp âm trong giọng',
+            theory: `<p>Lấy từng nốt của âm giai trưởng làm gốc rồi chồng quãng 3 chỉ bằng nốt trong âm giai, bạn có 7 hợp âm "cùng một nhà". Ở giọng C trưởng:</p>
+              ${formula([{ t: 'I · C', k: 1 }, 'ii · Dm', 'iii · Em', { t: 'IV · F', k: 1 }, { t: 'V · G', k: 1 }, 'vi · Am', 'vii° · Bdim'])}
+              <p>Người ta gọi hợp âm bằng <b>số La Mã</b> để áp cho mọi giọng: chữ hoa là trưởng, chữ thường là thứ. Phần lớn bài pop và R&B chỉ dùng những hợp âm này. Các vòng quen thuộc: <code>I–V–vi–IV</code>, <code>vi–IV–I–V</code>, và <code>ii–V–I</code> của Jazz và R&B.</p>`,
+            demos: [
+              { label: 'I–V–vi–IV ở C', run: () => playChordsInRow([triadMidis(0, 'Major'), triadMidis(7, 'Major', 2, 48), triadMidis(9, 'Minor', 1, 48), triadMidis(5, 'Major', 2, 48)]) },
+              { label: 'ii–V–I ở C (hợp âm 7)', run: () => playChordsInRow([[50, 53, 57, 60], [55, 59, 62, 65], [48, 52, 55, 59]], 1.3) }
+            ],
+            gen() {
+              const key = pick([0, 7, 5, 2]);
+              const ROMAN = ['I', 'ii', 'iii', 'IV', 'V', 'vi', 'vii°'];
+              const QUAL = ['', 'm', 'm', '', '', 'm', 'dim'];
+              const names = MAJOR_SCALE.map((s, i) => nn(key + s) + QUAL[i]);
+              const deg = Math.floor(Math.random() * 6);
+              const reverse = Math.random() < 0.5;
+              const others = [0, 1, 2, 3, 4, 5].filter((d) => d !== deg).sort(() => Math.random() - 0.5).slice(0, 3);
+              const opts = [deg, ...others].sort(() => Math.random() - 0.5);
+              const explain = `Giọng ${nn(key)} trưởng: ${names.map((n, i) => `${ROMAN[i]} ${n}`).join(' · ')}`;
+              return {
+                tag: 'Số La Mã', mode: 'choice',
+                prompt: reverse
+                  ? `Trong giọng <span class="hl">${nn(key)} trưởng</span>, hợp âm <span class="hl2">${names[deg]}</span> là bậc mấy?`
+                  : `Trong giọng <span class="hl">${nn(key)} trưởng</span>, hợp âm bậc <span class="hl2">${ROMAN[deg]}</span> là gì?`,
+                hint: 'Viết âm giai trưởng của giọng ra, rồi đếm bậc.',
+                choices: opts.map((d) => ({ label: reverse ? ROMAN[d] : names[d], value: d })),
+                check: (v) => ({ ok: v === deg, explain }),
+                answer: triadMidis(pcOf(key + MAJOR_SCALE[deg]), QUAL[deg] === 'm' ? 'Minor' : 'Major')
+              };
+            },
+            daw: [
+              'Chọn một giọng, ví dụ C trưởng, và bật tô sáng âm giai.',
+              'Vẽ vòng vi–IV–I–V (Am F C G), mỗi hợp âm dài một ô nhịp, rồi bật loop.',
+              'Thêm một kênh bass: mỗi ô nhịp chỉ cần nốt gốc của hợp âm ở quãng tám thấp (A1, F1, C2, G1).'
+            ]
+          }
+        ]
+      },
+      {
+        chapter: 'Làm nhạc',
+        lessons: [
+          {
+            id: 'voice-leading', title: 'Nối hợp âm mượt',
+            theory: `<p>Khi chuyển hợp âm mà cả 3 ngón cùng nhảy, tiếng nhạc nghe giật cục. <b>Voice leading</b> là chọn thế đảo sao cho các nốt di chuyển ít nhất.</p>
+              <p>Ví dụ đi từ C (<code>C E G</code>) sang F. Thay vì nhảy lên <code>F A C</code>, ta chơi <code>C F A</code> (đảo 2): C đứng yên, E lên F một bán cung, G lên A hai bán cung. Đây là bí quyết khiến vòng hợp âm R&B nghe "chảy".</p>
+              ${formula([{ t: '1. Giữ nốt chung', k: 1 }, { t: '2. Các nốt còn lại đi tới nốt gần nhất', k: 1 }])}`,
+            demos: [
+              { label: 'Nhảy thế gốc: C → F → G', run: () => playChordsInRow([[60, 64, 67], [65, 69, 72], [67, 71, 74]]) },
+              { label: 'Voice leading: C → F → G', run: () => playChordsInRow([[60, 64, 67], [60, 65, 69], [59, 62, 67]]) }
+            ],
+            gen() {
+              const pair = pick([
+                { f: [60, 64, 67], fn: 'C', r: 5, id: 'Major' }, { f: [60, 64, 67], fn: 'C', r: 7, id: 'Major' },
+                { f: [60, 64, 67], fn: 'C', r: 9, id: 'Minor' }, { f: [60, 64, 67], fn: 'C', r: 4, id: 'Minor' },
+                { f: [57, 60, 64], fn: 'Am', r: 5, id: 'Major' }, { f: [57, 60, 64], fn: 'Am', r: 2, id: 'Minor' },
+                { f: [57, 60, 65], fn: 'F', r: 7, id: 'Major' }, { f: [57, 60, 65], fn: 'F', r: 2, id: 'Minor' },
+                { f: [59, 62, 67], fn: 'G', r: 0, id: 'Major' }, { f: [59, 62, 67], fn: 'G', r: 4, id: 'Minor' }
+              ]);
+              const best = bestVoiceLeading(pair.f, pair.r, pair.id);
+              const target = chordLabel(pair.r, pair.id);
+              return {
+                tag: 'Voice leading', mode: 'multi', given: pair.f, givenClass: 'is-chord',
+                prompt: `Đang giữ <span class="hl2">${pair.fn}</span> (phím xanh). Bấm <span class="hl">${target}</span> sao cho các ngón di chuyển ít nhất`,
+                hint: 'Bấm đúng 3 phím. Giữ nốt chung, các nốt khác đi tới nốt gần nhất.',
+                check: (sel) => {
+                  const okNotes = sel.length === 3 && setEq(sel.map(pcOf), chordPcs(pair.r, pair.id).slice(0, 3));
+                  const mv = okNotes ? movement(pair.f, sel) : null;
+                  const ok = okNotes && mv === best.mv;
+                  const extra = okNotes && !ok ? ` Thế bạn bấm đúng nốt nhưng di chuyển ${mv} bán cung.` : '';
+                  return { ok, explain: `Cách gần nhất: <span class="mono">${best.v.map(midiToNoteLabel).join(' ')}</span> (${INV_NAMES[best.inv]}), tổng cộng chỉ di chuyển ${best.mv} bán cung.${extra}` };
+                },
+                answer: best.v, play: (ans) => playChordsInRow([pair.f, ans])
+              };
+            },
+            daw: [
+              'Vẽ vòng C – F – G – C, cả 4 hợp âm ở thế gốc. Nghe thử.',
+              'Sửa lại: giữ C như cũ, đổi F thành C F A và G thành B D G. Nghe lại: mượt hơn hẳn.',
+              'Thêm nốt gốc ở quãng tám thấp làm bass. Bass giữ vai trò "tên hợp âm", phần trên tha hồ đảo.'
+            ]
+          },
+          {
+            id: 'color-chords', title: 'Hợp âm màu R&B',
+            theory: `<p>R&B và Neo-soul thêm bậc <b>9, 11, 13</b> để hợp âm "ướt" và sang hơn. Đó chỉ là bậc 2, 4, 6 đặt lên quãng tám trên:</p>
+              ${formula([{ t: '9 = bậc 2 (+14)', k: 1 }, '11 = bậc 4 (+17)', '13 = bậc 6 (+21)'])}
+              ${formula(['m9: 1 b3 5 b7 9', 'Maj9: 1 3 5 7 9', '13: 1 3 b7 9 13'])}
+              <p>Năm nốt xếp sát nhau sẽ đục. Producer dùng <b>open voicing</b>: tách nốt gốc xuống làm bass, đặt các nốt màu (3, 7, 9) gọn ở quãng giữa, thường bỏ bậc 5 vì nó ít màu.</p>`,
+            demos: [
+              { label: 'Dm9 (open)', run: () => playTogether(computeVoicedNotes(2, CHORD_LIBRARY.m9, false, 'open').map((v) => v.midi)) },
+              { label: 'G13 (open)', run: () => playTogether(computeVoicedNotes(7, CHORD_LIBRARY.Dom13, false, 'open').map((v) => v.midi)) },
+              { label: 'CMaj9 (open)', run: () => playTogether(computeVoicedNotes(0, CHORD_LIBRARY.Maj9, false, 'open').map((v) => v.midi)) },
+              { label: 'Mở trong phòng lab', run: () => goLab({ root: 2, id: 'm9', voicing: 'open' }) }
+            ],
+            gen() {
+              const root = pick([0, 2, 4, 5, 7, 9]);
+              const id = pick(['m9', 'Maj9', 'm11', 'Dom13']);
+              return {
+                tag: 'Hợp âm màu', mode: 'multi',
+                prompt: `Bấm đủ các nốt của <span class="hl">${chordLabel(root, id)}</span>`,
+                hint: `Công thức ${CHORD_LIBRARY[id].degrees.map((d) => d.label).join(' · ')}. Chỉ cần đúng tên nốt, quãng tám nào cũng được.`,
+                check: (sel) => ({ ok: setEq(sel.map(pcOf), chordPcs(root, id)), explain: `${chordLabel(root, id)} = <span class="mono">${chordPcs(root, id).map(nn).join(' ')}</span>` }),
+                answer: computeVoicedNotes(root, CHORD_LIBRARY[id], false, 'open').map((v) => v.midi)
+              };
+            },
+            daw: [
+              'Vẽ nốt gốc ở quãng 2 (bass), rồi các nốt b3, b7, 9 ở khoảng C3 đến C4.',
+              'Hoặc ở tab Hợp âm & Thang âm chọn Open voicing, bấm MIDI và kéo file vào DAW.',
+              'Lệch mỗi nốt 10 đến 30 ms (strum) và hạ velocity các nốt trên: nghe như người thật đánh.'
+            ]
+          },
+          {
+            id: 'groove', title: 'Trống và groove',
+            theory: `<p>Một ô nhịp 4/4 có 4 phách, mỗi phách chia 4, tổng cộng <b>16 ô</b> (nốt móc kép). Đây chính là 16 nút của step sequencer.</p>
+              ${formula([{ t: '1', k: 1 }, 'e', '&', 'a', { t: '2', k: 1 }, 'e', '&', 'a', { t: '3', k: 1 }, 'e', '&', 'a', { t: '4', k: 1 }, 'e', '&', 'a'])}
+              <p>Công thức nền của Hip-hop và R&B: <b>kick</b> ở phách 1 và quanh phách 3, <b>snare</b> ở phách 2 và 4 (ô 5 và 13), <b>hi-hat</b> đều ở các ô lẻ. Groove nằm ở chi tiết: swing làm các ô chẵn trễ một chút, snare trễ vài mili giây tạo cảm giác "lười" kiểu J Dilla.</p>`,
+            demos: [
+              { label: 'Nghe nhịp cơ bản', run: () => { audio.init(); const t0 = audio.ctx.currentTime + 0.05, six = 60 / 90 / 4; for (let i = 0; i < 32; i++) { const s = i % 16, tt = t0 + i * six; if (KICK_PATTERN[s]) audio.playKick(tt); if (SNARE_PATTERN[s]) audio.playSnare(tt); if (HIHAT_PATTERN[s]) audio.playHiHat(tt, s % 4 === 0); } } },
+              { label: 'Mở tab Vòng hợp âm', run: () => goTab('loop') }
+            ],
+            gen() {
+              const q = pick([
+                { kind: 'snare', cells: [4, 12], p: 'Bật các ô để <span class="hl">snare</span> rơi vào phách 2 và 4', h: 'Phách 2 là ô 5, phách 4 là ô 13.' },
+                { kind: 'kick', cells: [0, 8], p: 'Bật các ô để <span class="hl">kick</span> rơi vào phách 1 và 3', h: 'Mỗi phách dài 4 ô. Phách 1 là ô 1.' },
+                { kind: 'hat', cells: [0, 2, 4, 6, 8, 10, 12, 14], p: 'Dựng <span class="hl">hi-hat</span> móc đơn: 8 tiếng đều trong ô nhịp', h: 'Bật các ô lẻ: 1, 3, 5...' },
+                { kind: 'kick', cells: [0, 7, 10], p: 'Dựng <span class="hl">kick boom-bap</span>: phách 1, "và" sau phách 2 một chút, và "e" của phách 3', h: 'Ô 1, ô 8 và ô 11.' }
+              ]);
+              return {
+                tag: 'Step sequencer', mode: 'steps', kind: q.kind, prompt: q.p, hint: q.h,
+                check: (cells) => ({ ok: setEq(cells, q.cells), explain: `Đáp án: ô ${q.cells.map((c) => c + 1).join(', ')}.` }),
+                answer: new Set(q.cells), play: (ans) => playDrumCells(ans, q.kind)
+              };
+            },
+            daw: [
+              'Mở step sequencer: FL Studio có Channel Rack, Ableton dùng Drum Rack, Logic có Step Sequencer.',
+              'Đặt kick ô 1 và 11, snare ô 5 và 13, hi-hat các ô lẻ. Bật loop ở khoảng 85 BPM.',
+              'Thêm swing: FL Studio kéo núm Swing trong Channel Rack, Ableton dùng Groove Pool, Logic dùng Quantize có swing.',
+              'Kéo riêng nốt snare trễ một chút khỏi lưới để có cảm giác lười.'
+            ]
+          }
+        ]
+      },
+      {
+        chapter: 'Lên bài trong DAW',
+        lessons: [
+          {
+            id: 'first-beat', title: 'Beat 4 ô nhịp đầu tiên',
+            theory: `<p>Một loop beat cơ bản có 3 lớp: <b>hợp âm</b>, <b>bass</b> và <b>trống</b>. Quy trình gợi ý:</p>
+              ${formula([{ t: '1. Chọn tempo và giọng', k: 1 }, '2. Viết vòng 4 hợp âm', '3. Đảo cho mượt', '4. Thêm bass', '5. Dựng trống', '6. Chỉnh groove'])}
+              <p>SoulLab làm sẵn bước 2 đến 6 để bạn nghe thử: vào tab <b>Vòng hợp âm</b>, chọn vòng mẫu, chỉnh tempo và swing, rồi bấm <b>Xuất MIDI</b>. Kéo file vào DAW và thay âm thanh bằng plugin bạn thích.</p>`,
+            demos: [
+              { label: 'Mở tab Vòng hợp âm', run: () => goTab('loop') },
+              { label: 'Mở phòng lab hợp âm', run: () => goTab('lab') }
+            ],
+            gen() {
+              const q = pick([
+                { p: 'Một ô nhịp 4/4 có bao nhiêu nốt móc kép (ô 1/16)?', o: ['16', '8', '4', '12'] },
+                { p: 'File nào mang nốt nhạc (không phải âm thanh) từ web sang DAW?', o: ['.mid', '.mp3', '.wav', '.png'] },
+                { p: 'Tempo phổ biến của R&B và boom-bap?', o: ['70–95 BPM', '120–130 BPM', '140–150 BPM', '160–175 BPM'] },
+                { p: 'Trong Hip-hop, snare thường rơi vào phách nào?', o: ['2 và 4', '1 và 3', 'Chỉ phách 1', 'Mọi phách'] },
+                { p: 'Muốn hợp âm trong piano roll nghe tự nhiên hơn, bạn nên làm gì?', o: ['Lệch nhẹ các nốt và đổi velocity', 'Đặt mọi nốt velocity 127', 'Xoá nốt bass', 'Tăng tempo gấp đôi'] },
+                { p: 'Bass line đơn giản nhất cho một vòng hợp âm là gì?', o: ['Nốt gốc mỗi hợp âm ở quãng tám thấp', 'Nốt bậc 7 ở quãng tám cao', 'Cả hợp âm ở quãng tám thấp', 'Không cần bass'] },
+                { p: 'Quantize trong DAW dùng để làm gì?', o: ['Kéo nốt về đúng lưới nhịp', 'Tăng âm lượng', 'Đổi giọng bài hát', 'Xuất file MP3'] },
+                { p: 'Vì sao nên đảo hợp âm khi viết vòng?', o: ['Để các nốt di chuyển ít, nghe mượt', 'Để đổi tên hợp âm', 'Để tăng tempo', 'Để bỏ được trống'] }
+              ]);
+              const right = q.o[0];
+              return {
+                tag: 'Kiến thức DAW', mode: 'choice', prompt: q.p, hint: '',
+                choices: [...q.o].sort(() => Math.random() - 0.5).map((o) => ({ label: o, value: o })),
+                check: (v) => ({ ok: v === right, explain: `Đáp án: <b>${right}</b>.` })
+              };
+            },
+            daw: [
+              'Tạo project mới, đặt tempo 85 BPM.',
+              'Ở tab Vòng hợp âm, chọn một vòng mẫu, bấm Xuất MIDI, kéo file .mid vào một track keys (Rhodes, piano hoặc pad).',
+              'Tạo track bass: copy MIDI, xoá hết chỉ giữ nốt thấp nhất của mỗi hợp âm, hạ xuống một quãng tám, gán plugin 808 hoặc sub bass.',
+              'Tạo track trống theo bài Trống và groove: kick, snare, hi-hat, bật swing.',
+              'Lặp 4 ô nhịp, chỉnh âm lượng 3 track cho cân. Xuất bản nháp ra file WAV và nghe lại trên tai nghe, loa điện thoại.',
+              'Thử thách: viết vòng của riêng bạn bằng hợp âm trong giọng, đảo cho mượt, rồi làm lại các bước trên.'
+            ]
+          }
+        ]
+      }
+    ];
+
+    // ---------- Nhạc cụ: hợp âm guitar thế mở (từ dây 6 lên dây 1) ----------
+    const GUITAR_CHORDS = {
+      G: [43, 47, 50, 55, 59, 67], C: [48, 52, 55, 60, 64], D: [50, 57, 62, 66],
+      Em: [40, 47, 52, 55, 59, 64], Am: [45, 52, 57, 60, 64]
+    };
+    // Quạt xuống: dây trầm → dây cao. Quạt lên: chỉ 3–4 dây cao, nhẹ hơn
+    function strumGuitar(notes, delay = 0, down = true, vel = 0.8, gap = 0.016, mute = false) {
+      const order = down ? notes : [...notes].reverse().slice(0, 4);
+      order.forEach((m, i) => audio.playPluck(m, delay + i * gap, mute ? 0.25 : 1.4, down ? vel : vel * 0.7, mute ? 1100 : 4800, mute ? 0.97 : 0.996));
+    }
+    function playStrumPattern(chord, pattern, bpm = 90, bars = 2) {
+      audio.init();
+      const six = 60 / bpm / 4;
+      for (let b = 0; b < bars; b++) pattern.forEach((st) => strumGuitar(GUITAR_CHORDS[chord], (b * 16 + st) * six + 0.05, st % 4 === 0));
+    }
+    const pianoNotes = (list, len, gap, vel = 0.8) => list.forEach((m, i) => audio.playRhodesNote(m, i * gap, len, vel));
+    function playGrooveBars(bars, opts = {}) {
+      audio.init();
+      const t0 = audio.ctx.currentTime + 0.06, six = 60 / (opts.bpm || 90) / 4;
+      for (let b = 0; b < bars; b++) {
+        const isFill = opts.fillBar === b;
+        for (let s = 0; s < 16; s++) {
+          const t = t0 + (b * 16 + s) * six;
+          if (b > 0 && s === 0 && opts.fillBar === b - 1) audio.playCrash(t);
+          if (isFill && s >= (opts.fillFrom ?? 12)) {
+            if (opts.toms) audio.playTom(t, [220, 190, 160, 130][Math.floor((s - (opts.fillFrom ?? 12)) / 2) % 4]);
+            else audio.playSnare(t, 0.55 + (s - 12) * 0.12);
+            continue;
+          }
+          if (KICK_PATTERN[s]) audio.playKick(t);
+          if (SNARE_PATTERN[s]) audio.playSnare(t);
+          if (opts.ghost && (s === 7 || s === 15 || s === 10)) audio.playSnare(t, 0.22);
+          if (opts.trap && s >= 12) { audio.playHiHat(t, false); audio.playHiHat(t + six / 2, false); }
+          else if (HIHAT_PATTERN[s]) audio.playHiHat(t, s % 4 === 0);
+        }
+      }
+    }
+    const shuffle = (arr) => [...arr].sort(() => Math.random() - 0.5);
+    const choiceQ = (tag, p, opts, explain, extra = {}) => ({
+      tag, mode: 'choice', prompt: p, hint: extra.hint || '',
+      choices: shuffle(opts).map((o) => ({ label: o, value: o })),
+      check: (v) => ({ ok: v === opts[0], explain: explain || `Đáp án: <b>${opts[0]}</b>.` }), ...extra
+    });
+
+    const EXTRA_LESSONS = {
+      'minor-scale': {
+        id: 'minor-scale', title: 'Âm giai thứ',
+        theory: `<p>Âm giai thứ tự nhiên là "người anh em buồn" của âm giai trưởng, công thức <b>Cung – Nửa – Cung – Cung – Nửa – Cung – Cung</b>:</p>
+          ${formula([{ t: '1', k: 1 }, '2', { t: 'b3', k: 1 }, '4', '5', 'b6', 'b7'])}
+          <p>So với trưởng, bậc 3, 6, 7 hạ nửa cung. Từ A sẽ ra <code>A B C D E F G</code>, toàn phím trắng, đúng bằng các nốt của C trưởng. Ta gọi A thứ là <b>giọng thứ song song (relative)</b> của C trưởng: cùng nốt, khác điểm "về nhà".</p>
+          <p>Phần lớn Trap, R&B tối, Lo-fi viết ở giọng thứ. Mẹo tìm nhanh: giọng thứ song song nằm dưới giọng trưởng 3 bán cung (C trưởng → A thứ, G trưởng → E thứ).</p>`,
+        demos: [
+          { label: 'Nghe A thứ', run: () => playSeq([57, 59, 60, 62, 64, 65, 67, 69], 0.25) },
+          { label: 'So với A trưởng', run: () => playSeq([57, 59, 61, 62, 64, 66, 68, 69], 0.25) },
+          { label: 'Mở trong phòng lab', run: () => goLab({ root: 9, id: 'NaturalMinor', scale: true }) }
+        ],
+        gen() {
+          if (Math.random() < 0.35) {
+            const pairs = [['C', 'Am'], ['G', 'Em'], ['F', 'Dm'], ['D', 'Bm'], ['Bb', 'Gm'], ['Eb', 'Cm']];
+            const [maj, min] = pick(pairs);
+            const wrong = shuffle(pairs.filter((x) => x[1] !== min)).slice(0, 3).map((x) => x[1]);
+            return choiceQ('Giọng song song', `Giọng thứ song song của <span class="hl">${maj} trưởng</span> là gì?`, [min, ...wrong], `${maj} trưởng và ${min} dùng chung 7 nốt. Giọng thứ nằm dưới 3 bán cung.`);
+          }
+          const root = pick([9, 4, 2, 11, 7, 0]);
+          const pcs = [0, 2, 3, 5, 7, 8, 10].map((x) => pcOf(root + x));
+          return {
+            tag: 'Dựng âm giai thứ', mode: 'multi', given: [48 + root],
+            prompt: `Bấm đủ 7 nốt của âm giai <span class="hl">${nn(root)} thứ</span>`,
+            hint: 'Từ phím cam, đi theo 2-1-2-2-1-2-2.',
+            check: (sel) => ({ ok: setEq(sel.map(pcOf), pcs), explain: `${nn(root)} thứ: <span class="mono">${pcs.map(nn).join(' ')}</span>` }),
+            answer: [0, 2, 3, 5, 7, 8, 10].map((x) => 48 + root + x), play: 'seq'
+          };
+        },
+        daw: [
+          'Bật tô sáng âm giai, chọn Minor (hoặc Aeolian) và nốt gốc A.',
+          'Vẽ vòng Am – F – C – G: đây là vòng vi–IV–I–V nhưng "về nhà" ở Am nên nghe buồn.',
+          'Thử đổi sang Am – G – F – G: kiểu vòng rất hay gặp trong Trap và Pop buồn.'
+        ]
+      },
+      pentatonic: {
+        id: 'pentatonic', title: 'Ngũ cung (pentatonic)',
+        theory: `<p><b>Ngũ cung</b> là âm giai chỉ có <b>5 nốt</b>. Nó bỏ đi hai nốt dễ "va" nhau (hai cặp cách nhau nửa cung) của âm giai 7 nốt, nên gần như <b>không có nốt nào nghe sai</b>. Đó là lý do ngũ cung là âm giai số một để viết hook, chạy riff vocal R&B, solo guitar và viết bass Hip-hop.</p>
+          ${formula([{ t: 'Ngũ cung thứ: 1 · b3 · 4 · 5 · b7', k: 1 }, { t: 'Ngũ cung trưởng: 1 · 2 · 3 · 5 · 6', k: 1 }])}
+          <p><b>Ví dụ:</b> A ngũ cung thứ = <code>A C D E G</code>. C ngũ cung trưởng = <code>C D E G A</code>. Cùng 5 nốt, chỉ khác nốt "về nhà", giống quan hệ trưởng và thứ song song ở bài trước.</p>
+          <p><b>Dùng như nào:</b> 1) Xác định giọng của beat (ví dụ A thứ). 2) Viết giai điệu chỉ bằng A C D E G. 3) Kết câu về nốt A (chủ âm) hoặc E (bậc 5) để nghe trọn vẹn; dừng ở G hoặc D để nghe "còn dở", gọi người nghe chờ câu sau.</p>
+          <p><b>Mẹo hay:</b> 5 phím đen chính là F# ngũ cung trưởng (hay Eb ngũ cung thứ). Bấm phím đen bất kỳ theo nhịp, nghe gần như luôn hay.</p>`,
+        demos: [
+          { label: 'A ngũ cung thứ', run: () => playSeq([57, 60, 62, 64, 67, 69], 0.25) },
+          { label: 'Ví dụ hook', run: () => pianoNotes([69, 67, 64, 67, 69, 72, 69, 64, 62, 64, 57], 0.32, 0.26) },
+          { label: 'Riff kiểu R&B', run: () => pianoNotes([72, 69, 67, 64, 62, 64, 62, 60, 57], 0.2, 0.11) },
+          { label: 'Chơi 5 phím đen', run: () => pianoNotes([66, 68, 70, 73, 75, 73, 70, 68, 66, 70, 68, 66], 0.3, 0.22) },
+          { label: 'Mở trong phòng lab', run: () => goLab({ root: 9, id: 'MinorPentatonic', scale: true }) }
+        ],
+        gen() {
+          const r = Math.random();
+          const root = pick([9, 4, 2, 0, 7, 5]);
+          const minPcs = [0, 3, 5, 7, 10].map((x) => pcOf(root + x));
+          const majPcs = [0, 2, 4, 7, 9].map((x) => pcOf(root + x));
+          if (r < 0.4) {
+            return {
+              tag: 'Ngũ cung thứ', mode: 'multi', given: [48 + root],
+              prompt: `Bấm 5 nốt của <span class="hl">${nn(root)} ngũ cung thứ</span>`,
+              hint: 'Công thức 1 · b3 · 4 · 5 · b7, tức gốc, +3, +5, +7, +10.',
+              check: (sel) => ({ ok: setEq(sel.map(pcOf), minPcs), explain: `${nn(root)} ngũ cung thứ: <span class="mono">${minPcs.map(nn).join(' ')}</span>` }),
+              answer: [0, 3, 5, 7, 10].map((x) => 48 + root + x), play: 'seq'
+            };
+          }
+          if (r < 0.7) {
+            return {
+              tag: 'Ngũ cung trưởng', mode: 'multi', given: [48 + root],
+              prompt: `Bấm 5 nốt của <span class="hl">${nn(root)} ngũ cung trưởng</span>`,
+              hint: 'Công thức 1 · 2 · 3 · 5 · 6, tức gốc, +2, +4, +7, +9.',
+              check: (sel) => ({ ok: setEq(sel.map(pcOf), majPcs), explain: `${nn(root)} ngũ cung trưởng: <span class="mono">${majPcs.map(nn).join(' ')}</span>` }),
+              answer: [0, 2, 4, 7, 9].map((x) => 48 + root + x), play: 'seq'
+            };
+          }
+          const outside = [1, 2, 6, 8, 9, 11].map((x) => pcOf(root + x));
+          const out = pick(outside);
+          const ins = shuffle(minPcs).slice(0, 3);
+          return {
+            ...choiceQ('Nốt lạc', `Nốt nào <b>không</b> thuộc <span class="hl">${nn(root)} ngũ cung thứ</span>?`, [nn(out), ...ins.map(nn)], `${nn(root)} ngũ cung thứ chỉ gồm <span class="mono">${minPcs.map(nn).join(' ')}</span>, nên ${nn(out)} là nốt lạc.`),
+            answer: [0, 3, 5, 7, 10].map((x) => 48 + root + x), play: 'seq'
+          };
+        },
+        daw: [
+          'Tạo track lead (piano, synth hoặc tiếng chuông), bật tô sáng âm giai Minor Pentatonic nếu DAW có, hoặc tự nhớ 5 nốt.',
+          'Vẽ một câu 1 ô nhịp chỉ bằng 5 nốt đó, kết ở chủ âm. Copy sang ô 2 và đổi nốt cuối thành nốt "còn dở" (b7 hoặc 4).',
+          'Ô 3 lặp lại ô 1, ô 4 kết về chủ âm: bạn có một hook 4 ô nhịp hỏi – đáp.',
+          'Riff vocal R&B: vẽ chuỗi nốt ngũ cung đi xuống thật nhanh (móc kép hoặc móc ba) rồi dừng ở một nốt dài.'
+        ]
+      },
+      piano: {
+        id: 'piano', title: 'Piano: legato, staccato, velocity, pedal',
+        theory: `<p>Cùng một nốt, cách <b>giữ phím bao lâu</b> và <b>đánh mạnh hay nhẹ</b> quyết định piano nghe như người thật hay máy. Trong DAW, ba thứ đó là độ dài nốt, velocity và pedal.</p>
+          ${formula([{ t: 'Legato: nối liền', k: 1 }, { t: 'Staccato: ngắt, nảy', k: 1 }, 'Velocity: 0–127', 'Pedal: CC64'])}
+          <p><b>Legato</b>: nốt sau bắt đầu đúng lúc (hoặc chồng nhẹ lên) nốt trước kết thúc, nghe mềm, hát được. Dùng cho giai điệu chậm, ballad. <b>Staccato</b>: giữ nốt rất ngắn, chỉ khoảng một nửa giá trị hoặc ngắn hơn, nghe nảy và có nhịp. Dùng cho hợp âm đệm kiểu Pop, Funk, Gospel hay piano trong Hip-hop.</p>
+          <p><b>Velocity</b> là lực đánh. Người thật không bao giờ đánh đều: nốt phách mạnh to hơn, nốt giai điệu nổi hơn nốt đệm. <b>Pedal sustain</b> (CC64) giữ tất cả nốt ngân sau khi nhả phím, làm hợp âm ấm; nhưng phải nhả và đạp lại khi đổi hợp âm, không thì tiếng bị lem.</p>
+          <p><b>Phân tay:</b> tay trái chơi nốt gốc hoặc quãng 8 ở vùng trầm (C2–C3), tay phải chơi hợp âm hoặc giai điệu ở vùng giữa (C4–C5). Đừng chất hợp âm dày dưới C3, sẽ đục.</p>`,
+        demos: [
+          { label: 'Legato', run: () => pianoNotes([60, 62, 64, 65, 67, 65, 64, 62, 60], 0.5, 0.4) },
+          { label: 'Staccato', run: () => pianoNotes([60, 62, 64, 65, 67, 65, 64, 62, 60], 0.11, 0.4) },
+          { label: 'Hợp âm staccato kiểu Pop', run: () => { [0, 0.45, 0.75, 1.2, 1.5].forEach((d) => [60, 64, 67].forEach((m) => audio.playRhodesNote(m, d, 0.14, 0.8))); [0, 1.2].forEach((d) => audio.playRhodesNote(36, d, 1, 0.9)); } },
+          { label: 'Velocity nhẹ → mạnh', run: () => [0.25, 0.45, 0.65, 0.9].forEach((v, i) => [60, 64, 67].forEach((m) => audio.playRhodesNote(m, i * 0.6, 0.55, v))) },
+          { label: 'Không pedal / có pedal', run: () => { pianoNotes([48, 55, 60, 64, 67], 0.25, 0.22); [48, 55, 60, 64, 67].forEach((m, i) => audio.playRhodesNote(m, 1.6 + i * 0.22, 2.6, 0.8)); } }
+        ],
+        gen() {
+          const r = Math.random();
+          if (r < 0.3) {
+            const leg = Math.random() < 0.5;
+            const melody = [64, 62, 60, 62, 64, 64, 64];
+            return choiceQ('Luyện tai', 'Nghe đoạn piano. Đây là kiểu chơi gì?', leg ? ['Legato (nối liền)', 'Staccato (ngắt)'] : ['Staccato (ngắt)', 'Legato (nối liền)'],
+              leg ? 'Các nốt nối liền nhau, không có khoảng lặng: legato.' : 'Mỗi nốt ngắt sớm, có khoảng lặng giữa các nốt: staccato.',
+              { listen: () => pianoNotes(melody, leg ? 0.48 : 0.1, 0.36) });
+          }
+          if (r < 0.55) {
+            const root = pick([0, 2, 4, 5, 7, 9]);
+            const id = pick(['Major', 'Minor']);
+            const pcs = chordPcs(root, id);
+            return {
+              tag: 'Phân tay', mode: 'multi',
+              prompt: `Chơi <span class="hl">${chordLabel(root, id)}</span> kiểu hai tay: tay trái 1 nốt gốc dưới C4, tay phải đủ 3 nốt hợp âm từ C4 trở lên`,
+              hint: 'Bàn phím ở đây là C3 đến B4. Nốt thấp nhất phải là nốt gốc và nằm ở quãng 3.',
+              check: (sel) => {
+                const sorted = [...sel].sort((a, b) => a - b);
+                const [low, ...rest] = sorted;
+                const ok = sel.length >= 4 && low < 60 && pcOf(low) === pcOf(root) && rest.every((m) => m >= 60) && setEq(rest.map(pcOf), pcs);
+                return { ok, explain: `Ví dụ: tay trái <span class="mono">${midiToNoteLabel(48 + root)}</span>, tay phải <span class="mono">${triadMidis(root, id, 0, 60).map(midiToNoteLabel).join(' ')}</span>.` };
+              },
+              answer: [48 + root, ...triadMidis(root, id, 0, 60)]
+            };
+          }
+          const bank = [
+            ['Staccato trong piano roll nghĩa là gì?', 'Nốt ngắn, khoảng nửa giá trị hoặc ngắn hơn', 'Nốt dài chồng lên nhau', 'Velocity bằng 127', 'Thêm pedal'],
+            ['Pedal sustain của piano là MIDI CC số mấy?', 'CC64', 'CC1', 'CC7', 'CC11'],
+            ['Velocity trong MIDI nằm trong khoảng nào?', '0–127', '0–100', '1–10', '0–255'],
+            ['Khi đổi hợp âm mà đang đạp pedal, nên làm gì?', 'Nhả rồi đạp lại pedal ngay sau hợp âm mới', 'Giữ pedal suốt bài', 'Tăng velocity', 'Xoá nốt bass'],
+            ['Vì sao không nên chất hợp âm dày dưới C3?', 'Vùng trầm dễ bị đục, lấn bass', 'Vì DAW không cho phép', 'Vì nốt trầm luôn lạc giọng', 'Vì tốn CPU'],
+            ['Muốn piano nghe giống người thật hơn, nên làm gì?', 'Thay đổi velocity và lệch nhẹ thời điểm các nốt', 'Quantize 100% mọi nốt', 'Cho mọi nốt cùng velocity', 'Chỉ dùng nốt trắng']
+          ];
+          const [p, ...o] = pick(bank);
+          return choiceQ('Kiến thức piano', p, o);
+        },
+        daw: [
+          'Plugin gợi ý: piano có sẵn của DAW (FL Keys, Ableton Grand Piano, Logic Steinway) hoặc Spitfire LABS Soft Piano (miễn phí).',
+          'Staccato: chọn các nốt hợp âm, rút độ dài còn khoảng 1/16. Legato: kéo đuôi mỗi nốt chạm hoặc chồng nhẹ lên đầu nốt sau.',
+          'Mở làn velocity dưới piano roll: nốt phách 1 khoảng 100–110, nốt đệm 70–90, giai điệu cao hơn đệm 10–15.',
+          'Thêm làn CC64 (Sustain): 127 là đạp, 0 là nhả. Mỗi lần đổi hợp âm vẽ một khe về 0 thật ngắn ngay trước hợp âm mới.',
+          'Dùng tính năng humanize hoặc randomize velocity khoảng ±8 cho cả đoạn, rồi chỉnh tay những nốt quan trọng.'
+        ]
+      },
+      guitar: {
+        id: 'guitar', title: 'Guitar: quạt, rải ngón, palm mute',
+        theory: `<p>Guitar có 6 dây, từ trầm đến cao là <code>E A D G B E</code>. Hợp âm guitar không xếp chồng gọn như piano mà trải rộng, thường có nốt lặp ở nhiều quãng tám. Cách chơi quyết định chất nhạc:</p>
+          ${formula([{ t: 'Quạt xuống ↓: dây trầm → cao', k: 1 }, { t: 'Quạt lên ↑: dây cao → trầm, nhẹ hơn', k: 1 }, 'Rải ngón: từng dây một', 'Palm mute: chặn tiếng, ngắn và đục'])}
+          <p><b>Quạt (strum)</b>: tay đi xuống vào phách, đi lên vào "và" (giữa phách). Kiểu kinh điển nhất cho Pop và Acoustic là <b>Xuống – Xuống Lên – Lên Xuống Lên</b> (1, 2 &, & 4 &), bỏ trống phách 3 nhưng tay vẫn vung. Quạt lên thường chỉ chạm 3–4 dây cao và nhẹ hơn.</p>
+          <p><b>Rải ngón (fingerpicking)</b>: ngón cái chơi nốt bass trên dây trầm vào phách, các ngón khác gảy dây cao xen giữa. Hợp R&B, Lo-fi, ballad. <b>Palm mute</b>: cạnh bàn tay đặt lên dây gần ngựa đàn, tiếng ngắn và "phụp", tạo nhịp cho Pop Punk, Rock, hay guitar đệm kiểu Afrobeats.</p>`,
+        demos: [
+          { label: 'Quạt xuống', run: () => strumGuitar(GUITAR_CHORDS.G, 0.05, true) },
+          { label: 'Quạt lên', run: () => strumGuitar(GUITAR_CHORDS.G, 0.05, false) },
+          { label: 'Xuống – Xuống Lên – Lên Xuống Lên', run: () => playStrumPattern('G', [0, 4, 6, 10, 12, 14], 92) },
+          { label: 'Rải ngón Am', run: () => { const p = [45, 57, 60, 64, 52, 57, 60, 64]; [0, 1].forEach((b) => p.forEach((m, i) => audio.playPluck(m, 0.05 + (b * 8 + i) * 0.22, 1.6, i % 4 === 0 ? 0.9 : 0.6))); } },
+          { label: 'Palm mute', run: () => { for (let i = 0; i < 8; i++) strumGuitar([40, 47, 52], 0.05 + i * 0.2, true, 0.8, 0.008, true); } }
+        ],
+        gen() {
+          const r = Math.random();
+          if (r < 0.4) {
+            const q = pick([
+              { cells: [0, 4, 6, 10, 12, 14], p: 'Dựng nhịp quạt <span class="hl">Xuống – Xuống Lên – Lên Xuống Lên</span>', h: 'Ô 1 = phách 1, ô 5 = phách 2, ô 7 = "và" của phách 2... Phách 3 (ô 9) bỏ trống.' },
+              { cells: [0, 4, 8, 12], p: 'Quạt <span class="hl">xuống đều mỗi phách</span>', h: 'Mỗi phách dài 4 ô.' },
+              { cells: [0, 2, 4, 6, 8, 10, 12, 14], p: 'Quạt <span class="hl">móc đơn Xuống Lên liên tục</span>', h: 'Xuống vào phách, lên vào "và": các ô lẻ.' },
+              { cells: [0, 6, 12], p: 'Nhịp <span class="hl">3-3-2</span> (kiểu Reggaeton, Pop hiện đại): quạt ở ô 1, 7 và 13', h: 'Khoảng cách 6 ô, 6 ô, rồi 4 ô.' }
+            ]);
+            return {
+              tag: 'Nhịp quạt', mode: 'steps', kind: 'strum', prompt: q.p, hint: q.h,
+              check: (cells) => ({ ok: setEq(cells, q.cells), explain: `Đáp án: ô ${q.cells.map((c) => c + 1).join(', ')}. Ô vào phách là quạt xuống, ô giữa phách là quạt lên.` }),
+              answer: new Set(q.cells), play: (ans) => playDrumCells(ans, 'strum')
+            };
+          }
+          if (r < 0.65) {
+            const down = Math.random() < 0.5;
+            return choiceQ('Luyện tai', 'Nghe tiếng guitar. Đây là quạt xuống hay quạt lên?', down ? ['Quạt xuống (trầm → cao)', 'Quạt lên (cao → trầm)'] : ['Quạt lên (cao → trầm)', 'Quạt xuống (trầm → cao)'],
+              down ? 'Dây trầm vang trước, đầy đặn: quạt xuống.' : 'Dây cao vang trước, mỏng và nhẹ: quạt lên.',
+              { listen: () => strumGuitar(GUITAR_CHORDS.G, 0.05, down, 0.85, 0.05) });
+          }
+          const bank = [
+            ['6 dây guitar (trầm → cao) là những nốt nào?', 'E A D G B E', 'C D E F G A', 'E B G D A E (trầm → cao)', 'G C E A D G'],
+            ['Trong piano roll, làm sao để giả lập một lần quạt xuống?', 'Lệch các nốt 10–30 ms từ thấp lên cao', 'Đặt mọi nốt đúng cùng một lúc', 'Lệch các nốt từ cao xuống thấp', 'Kéo dài nốt gấp đôi'],
+            ['Quạt lên khác quạt xuống thế nào?', 'Chạm 3–4 dây cao, nhẹ hơn', 'Luôn to hơn quạt xuống', 'Chỉ chạm dây trầm', 'Không có khác biệt'],
+            ['Palm mute tạo ra tiếng như thế nào?', 'Ngắn, đục, có nhịp', 'Ngân dài, sáng', 'Rung (vibrato)', 'Tiếng hoà âm (harmonic)'],
+            ['Khi rải ngón, ngón cái thường chơi gì?', 'Nốt bass trên dây trầm, vào phách', 'Nốt cao nhất', 'Chỉ chơi phách lẻ', 'Không dùng ngón cái'],
+            ['Quạt lên thường rơi vào đâu trong phách?', 'Giữa phách ("và")', 'Đúng phách 1', 'Chỉ phách 3', 'Không có quy tắc']
+          ];
+          const [p, ...o] = pick(bank);
+          return choiceQ('Kiến thức guitar', p, o);
+        },
+        daw: [
+          'Plugin gợi ý: Ample Guitar M Lite II (miễn phí), hoặc nylon/acoustic trong Spitfire LABS. Plugin có sẵn chế độ strum sẽ tự lệch nốt cho bạn.',
+          'Tự vẽ: dùng thế bấm guitar thay vì hợp âm piano, ví dụ G = G2 B2 D3 G3 B3 G4. Quạt xuống lệch mỗi nốt 10–20 ms từ thấp lên cao; quạt lên chỉ 3–4 nốt cao, lệch từ cao xuống, velocity thấp hơn 15–25.',
+          'Vẽ nhịp quạt theo lưới móc đơn: ô vào phách là quạt xuống, ô giữa phách là quạt lên.',
+          'Rải ngón: nốt bass vào phách 1 và 3, các nốt cao xen vào giữa, mỗi nốt dài đến khi nốt cùng dây kế tiếp vang.',
+          'Palm mute: rút ngắn nốt còn 1/32 đến 1/16, hạ velocity, hoặc bật articulation palm mute của plugin.'
+        ]
+      },
+      strings: {
+        id: 'strings', title: 'Đàn dây (strings)',
+        theory: `<p>Dàn dây gồm 4 bè chính, mỗi bè có vùng cao độ riêng. Viết đúng vùng là bí quyết để nghe "thật":</p>
+          ${formula(['Double bass: E1–G3', 'Cello: C2–A4', 'Viola: C3–E5', { t: 'Violin: G3–A6', k: 1 }])}
+          <p><b>Cách viết pad dây</b> cho Pop, R&B: nốt gốc ở cello (hoặc double bass), các nốt hợp âm trải ra cho viola và violin, mỗi bè một nốt. Đổi hợp âm bằng voice leading như bài trước, để từng bè đi ít nhất. Nốt dài, ít nốt, nhưng thay đổi cường độ liên tục.</p>
+          <p><b>Các kiểu kéo (articulation):</b> <b>Legato/Sustain</b> nối liền, dùng cho pad và giai điệu. <b>Spiccato/Staccato</b> nảy ngắn, tạo nhịp hồi hộp kiểu nhạc phim. <b>Pizzicato</b> là gảy bằng ngón tay, tiếng nhỏ và tròn, hợp đoạn nhẹ nhàng, vui. <b>Swell</b>: to dần rồi nhỏ dần trong một nốt, dẫn vào đoạn mới.</p>
+          <p>Cường độ của dây thường điều khiển bằng <b>mod wheel (CC1)</b> và <b>expression (CC11)</b> chứ không chỉ velocity. Vẽ đường cong lên xuống cho mỗi câu là đàn dây sống ngay.</p>`,
+        demos: [
+          { label: 'Pad dây Am – F – C – G', run: () => [[45, 57, 60, 64], [41, 57, 60, 65], [48, 55, 60, 64], [43, 55, 59, 62]].forEach((ch, i) => ch.forEach((m) => audio.playStringNote(m, i * 1.6, 1.5, 0.7, 0.3, 0.4))) },
+          { label: 'Swell', run: () => [45, 57, 60, 64].forEach((m) => audio.playStringNote(m, 0, 2.5, 0.9, 2.2, 0.6)) },
+          { label: 'Spiccato', run: () => { for (let i = 0; i < 16; i++) audio.playStringNote(i % 4 === 0 ? 45 : 57, i * 0.16, 0.06, 0.9, 0.01, 0.08); } },
+          { label: 'Pizzicato', run: () => [57, 60, 64, 69, 64, 60, 57, 52].forEach((m, i) => audio.playPluck(m, i * 0.28, 0.6, 0.8, 1500, 0.985)) },
+          { label: 'Ba bè: cello – viola – violin', run: () => { [48, 47, 45, 43].forEach((m, i) => audio.playStringNote(m, i * 1.2, 1.15, 0.7, 0.2)); [55, 55, 57, 55].forEach((m, i) => audio.playStringNote(m, i * 1.2, 1.15, 0.5, 0.2)); [64, 62, 60, 62].forEach((m, i) => audio.playStringNote(m + 12, i * 1.2, 1.15, 0.5, 0.2)); } }
+        ],
+        gen() {
+          const r = Math.random();
+          if (r < 0.3) {
+            const kind = pick(['Legato (nối liền)', 'Pizzicato (gảy)', 'Spiccato (nảy ngắn)']);
+            const others = ['Legato (nối liền)', 'Pizzicato (gảy)', 'Spiccato (nảy ngắn)'].filter((k) => k !== kind);
+            const play = {
+              'Legato (nối liền)': () => [57, 60, 64, 62].forEach((m, i) => audio.playStringNote(m, i * 0.7, 0.72, 0.7, 0.15)),
+              'Pizzicato (gảy)': () => [57, 60, 64, 62].forEach((m, i) => audio.playPluck(m, i * 0.35, 0.6, 0.8, 1500, 0.985)),
+              'Spiccato (nảy ngắn)': () => [57, 57, 60, 60, 64, 64, 62, 62].forEach((m, i) => audio.playStringNote(m, i * 0.2, 0.06, 0.9, 0.01, 0.08))
+            }[kind];
+            return choiceQ('Luyện tai', 'Nghe đoạn đàn dây. Đây là kiểu kéo nào?', [kind, ...others], `Đó là ${kind.toLowerCase()}.`, { listen: play });
+          }
+          if (r < 0.5) {
+            const root = pick([9, 0, 2, 5, 7]);
+            const id = root === 9 || root === 2 ? 'Minor' : 'Major';
+            const pcs = chordPcs(root, id);
+            return {
+              tag: 'Chia bè', mode: 'multi',
+              prompt: `Chia hợp âm <span class="hl">${chordLabel(root, id)}</span> cho 4 bè dây: bấm 4 phím, nốt thấp nhất là nốt gốc, trải rộng hơn một quãng tám`,
+              hint: 'Mỗi bè một nốt. Phải có đủ 3 tên nốt của hợp âm, nốt trên cùng cách nốt dưới cùng ít nhất 12 bán cung.',
+              check: (sel) => {
+                const sorted = [...sel].sort((a, b) => a - b);
+                const ok = sel.length === 4 && pcOf(sorted[0]) === pcOf(root) && setEq(sel.map(pcOf), pcs) && sorted[3] - sorted[0] >= 12;
+                const ex = [48 + root, 48 + root + 7, 60 + root + (id === 'Minor' ? 3 : 4), 60 + root + 7].map(midiToNoteLabel).join(' ');
+                return { ok, explain: `Ví dụ: <span class="mono">${ex}</span> (cello gốc, viola bậc 5, violin 2 bậc 3, violin 1 bậc 5).` };
+              },
+              answer: [48 + root, 48 + root + 7, 60 + root + (id === 'Minor' ? 3 : 4), 60 + root + 7],
+              play: (ans) => ans.forEach((m) => audio.playStringNote(m, 0, 2, 0.7, 0.3))
+            };
+          }
+          const bank = [
+            ['Nhạc cụ nào trầm nhất trong dàn dây?', 'Double bass', 'Cello', 'Viola', 'Violin'],
+            ['Cường độ đàn dây trong plugin thường điều khiển bằng gì?', 'Mod wheel (CC1) và expression (CC11)', 'Chỉ bằng tempo', 'Pedal sustain CC64', 'Độ dài clip'],
+            ['Pizzicato là gì?', 'Gảy dây bằng ngón tay', 'Kéo vĩ nối liền', 'Rung tay trái', 'Kéo vĩ thật nhanh'],
+            ['Muốn viết pad dây cho R&B, nên làm gì?', 'Nốt dài, mỗi bè một nốt, đổi hợp âm bằng voice leading', 'Nhiều nốt ngắn liên tục ở mọi bè', 'Cả 4 bè chơi cùng một nốt', 'Đặt mọi nốt dưới C2'],
+            ['Spiccato hợp với kiểu đoạn nhạc nào?', 'Đoạn có nhịp, hồi hộp kiểu nhạc phim', 'Pad nền chậm', 'Đoạn kết ngân dài', 'Chỉ dùng cho bass'],
+            ['Swell là gì?', 'To dần rồi nhỏ dần trong một nốt', 'Nốt cực ngắn', 'Gảy dây', 'Lên cao một quãng tám']
+          ];
+          const [p, ...o] = pick(bank);
+          return choiceQ('Kiến thức đàn dây', p, o);
+        },
+        daw: [
+          'Plugin gợi ý: Spitfire LABS Strings (miễn phí), BBC Symphony Orchestra Discover (miễn phí), hoặc strings có sẵn trong DAW.',
+          'Tạo 3–4 track: cello (nốt gốc, C2–C3), viola (C3–C4), violin (từ G3 trở lên). Mỗi track chỉ một nốt tại một thời điểm.',
+          'Kéo nốt dài hết ô nhịp, chồng nhẹ đuôi nốt lên nốt sau để plugin chơi legato.',
+          'Vẽ làn CC1 (mod wheel): mỗi câu đi lên ở giữa và xuống ở cuối. Đây là việc quan trọng nhất để dây nghe thật.',
+          'Đổi articulation (keyswitch hoặc menu của plugin) sang spiccato hoặc pizzicato cho đoạn cần nhịp.'
+        ]
+      },
+      bass: {
+        id: 'bass', title: 'Bass và 808',
+        theory: `<p>Bass nối hợp âm với trống: nó cho người nghe biết hợp âm đang là gì và giữ nhịp cùng kick. Ba công thức bass dùng được ngay:</p>
+          ${formula([{ t: '1. Nốt gốc', k: 1 }, '2. Gốc + quãng 8', '3. Gốc + quãng 5', '4. Nốt dẫn (passing)'])}
+          <p><b>Nốt gốc</b>: mỗi hợp âm chỉ chơi nốt gốc, đặt cùng chỗ với kick. <b>Quãng 8</b>: nhảy lên chính nốt đó cao hơn, tạo độ nảy (Disco, Funk). <b>Quãng 5</b>: thêm nốt bậc 5 làm bass "đi" hơn. <b>Nốt dẫn</b>: cuối ô nhịp chen một nốt nửa cung hoặc một cung sát hợp âm sau để trượt vào.</p>
+          <p>Với hợp âm có dấu gạch như <code>C/E</code>, bass chơi nốt sau dấu gạch (E), chính là đảo hợp âm ở bài trước.</p>
+          <p><b>808</b> là bass của Trap và Hip-hop hiện đại: tiếng trống kick kéo dài có cao độ. Viết 808 như bass nhưng ít nốt hơn, cho ngân dài, và dùng <b>glide</b> (trượt) giữa hai nốt chồng nhau để tạo tiếng "vút". Luôn để 808 và kick đánh cùng lúc hoặc tránh nhau hẳn, đừng lệch nhau một chút.</p>`,
+        demos: [
+          { label: 'Nốt gốc: Am F C G', run: () => { audio.init(); [45, 41, 48, 43].forEach((m, i) => audio.playSubBass(m, audio.ctx.currentTime + i * 0.9, 0.85)); } },
+          { label: 'Gốc + quãng 8', run: () => { audio.init(); [33, 45, 33, 45, 29, 41, 29, 41].forEach((m, i) => audio.playSubBass(m + 12, audio.ctx.currentTime + i * 0.3, 0.28)); } },
+          { label: 'Gốc + quãng 5', run: () => { audio.init(); [45, 52, 45, 52, 41, 48, 41, 48].forEach((m, i) => audio.playSubBass(m, audio.ctx.currentTime + i * 0.3, 0.28)); } },
+          { label: '808 có glide', run: () => { audio.play808(33, 0, 1.2, 40); audio.play808(36, 1.4, 1.0, 31); } }
+        ],
+        gen() {
+          const r = Math.random();
+          const root = pick([0, 2, 4, 5, 7, 9, 10]);
+          if (r < 0.3) {
+            const id = pick(['Maj7', 'm7', 'm9', 'Dom7', 'Major', 'Minor']);
+            return {
+              tag: 'Nốt bass', mode: 'single',
+              prompt: `Bấm nốt bass đơn giản nhất cho hợp âm <span class="hl">${chordLabel(root, id)}</span>`,
+              hint: 'Bass cơ bản chơi nốt gốc. Quãng tám nào cũng được.',
+              check: (sel) => ({ ok: pcOf(sel[0]) === pcOf(root), explain: `Nốt gốc của ${chordLabel(root, id)} là ${nn(root)}.` }),
+              answer: [48 + root]
+            };
+          }
+          if (r < 0.5) {
+            return {
+              tag: 'Bass quãng 5', mode: 'single', given: [48 + root],
+              prompt: `Bass đang chơi <span class="hl">${nn(root)}</span>. Bấm nốt quãng 5 phía trên để bass "đi"`,
+              hint: 'Quãng 5 = +7 bán cung.',
+              check: (sel) => ({ ok: pcOf(sel[0]) === pcOf(root + 7), explain: `${nn(root)} + 7 bán cung = ${nn(root + 7)}.` }),
+              answer: [48 + root, 55 + root], play: 'seq'
+            };
+          }
+          if (r < 0.7) {
+            const id = pick(['Major', 'Minor']);
+            const inv = pick([1, 2]);
+            const bassPc = chordPcs(root, id)[inv];
+            return {
+              tag: 'Hợp âm gạch chéo', mode: 'single',
+              prompt: `Bấm nốt bass của hợp âm <span class="hl">${chordLabel(root, id)}/${nn(bassPc)}</span>`,
+              hint: 'Bass chơi nốt đứng sau dấu gạch.',
+              check: (sel) => ({ ok: pcOf(sel[0]) === bassPc, explain: `${chordLabel(root, id)}/${nn(bassPc)} nghĩa là hợp âm ${chordLabel(root, id)} với ${nn(bassPc)} ở bass (${INV_NAMES[inv]}).` }),
+              answer: [48 + bassPc]
+            };
+          }
+          if (r < 0.82) {
+            const glide = Math.random() < 0.5;
+            return choiceQ('Luyện tai', 'Nghe tiếng 808. Có trượt (glide) sang nốt khác không?', glide ? ['Có glide', 'Không glide'] : ['Không glide', 'Có glide'],
+              glide ? 'Cao độ trượt lên ở giữa nốt: có glide.' : 'Cao độ đứng yên suốt nốt: không glide.',
+              { listen: () => audio.play808(33, 0, 1.4, glide ? 40 : null) });
+          }
+          const bank = [
+            ['Bass và kick nên phối hợp thế nào?', 'Đánh cùng lúc hoặc tránh hẳn nhau', 'Lệch nhau vài mili giây', 'Bass luôn trước kick một phách', 'Không liên quan đến nhau'],
+            ['Bass line nên chơi mấy nốt cùng lúc?', 'Một nốt (đơn âm)', 'Ba nốt', 'Cả hợp âm 7', 'Càng nhiều càng tốt'],
+            ['Glide trên 808 được tạo bằng cách nào trong piano roll?', 'Cho hai nốt chồng lên nhau và bật portamento/glide', 'Tăng velocity lên 127', 'Đặt hai nốt cách xa nhau', 'Thêm pedal CC64'],
+            ['Nốt dẫn (passing note) của bass thường đặt ở đâu?', 'Cuối ô nhịp, ngay trước hợp âm mới', 'Đầu ô nhịp, đúng phách 1', 'Giữa hợp âm, thay nốt gốc', 'Không bao giờ dùng']
+          ];
+          const [p, ...o] = pick(bank);
+          return choiceQ('Kiến thức bass', p, o);
+        },
+        daw: [
+          'Plugin gợi ý: bass/808 có sẵn của DAW (FL 3x Osc hoặc 808 sample, Ableton Operator, Logic Sampler), hoặc Vital (synth miễn phí).',
+          'Copy MIDI hợp âm, xoá hết chỉ giữ nốt gốc, hạ xuống quãng 1–2. Đặt mỗi nốt bass trùng vị trí với kick.',
+          'Đặt bass ở chế độ mono (một nốt), cắt đuôi nốt trước khi nốt sau vào để không chồng.',
+          '808: bật Portamento/Glide (hoặc Slide trong FL), cho nốt sau chồng lên đuôi nốt trước để trượt.',
+          'Kiểm tra trên tai nghe và loa điện thoại: nếu loa nhỏ mất bass, thêm chút saturation để bass có hài âm cao.'
+        ]
+      },
+      fills: {
+        id: 'fills', title: 'Dồn trống (fill) và chuyển đoạn',
+        theory: `<p><b>Fill</b> (dồn trống) là đoạn trống ngắn phá vỡ nhịp lặp để báo người nghe "sắp sang đoạn mới". Không có fill, bài nghe phẳng; fill sai chỗ thì bài bị rối.</p>
+          ${formula([{ t: 'Đặt ở ô cuối của câu 4 hoặc 8 ô', k: 1 }, 'Dài nửa ô đến 1 ô', 'Mật độ và lực tăng dần', { t: 'Crash + kick ở phách 1 sau fill', k: 1 }])}
+          <p><b>Đặt ở đâu:</b> ô nhịp cuối của một câu (ô 4, ô 8), nhất là ngay trước điệp khúc. Fill nhỏ cuối mỗi 4 ô, fill lớn trước đoạn mới. <b>Đánh thế nào:</b> bắt đầu từ phách 3 hoặc 4, dồn snare hoặc tom theo móc kép, lực tăng dần, tom đi từ cao xuống thấp. Kết thúc bằng crash và kick đúng phách 1 của đoạn sau.</p>
+          <p><b>Ghost note</b>: các nốt snare rất nhẹ chen giữa phách, làm groove "nhún" mà không lấn backbeat. <b>Hi-hat roll</b> (Trap): hi-hat chia 1/32 hoặc chùm ba ở cuối câu thay cho fill snare.</p>`,
+        demos: [
+          { label: '4 ô có fill snare ở ô 4', run: () => playGrooveBars(5, { fillBar: 3 }) },
+          { label: 'Fill tom cao → thấp', run: () => playGrooveBars(3, { fillBar: 1, toms: true, fillFrom: 8 }) },
+          { label: 'Groove có ghost note', run: () => playGrooveBars(2, { ghost: true }) },
+          { label: 'Hi-hat roll kiểu Trap', run: () => playGrooveBars(2, { trap: true, bpm: 70 }) }
+        ],
+        gen() {
+          const r = Math.random();
+          if (r < 0.35) {
+            const q = pick([
+              { cells: [12, 13, 14, 15], p: 'Dồn <span class="hl">snare móc kép ở phách 4</span>', h: 'Phách 4 gồm ô 13 đến 16.' },
+              { cells: [8, 10, 12, 13, 14, 15], p: 'Fill tăng dần: <span class="hl">móc đơn ở phách 3, móc kép ở phách 4</span>', h: 'Phách 3: ô 9 và 11. Phách 4: ô 13–16.' },
+              { cells: [8, 9, 10, 11, 12, 13, 14, 15], p: 'Fill lớn: <span class="hl">móc kép liên tục từ phách 3</span>', h: 'Từ ô 9 đến ô 16.' },
+              { cells: [4, 12, 15], p: 'Backbeat ở phách 2, 4 và thêm một nốt "dẫn" ở <span class="hl">ô cuối cùng</span>', h: 'Ô 5, ô 13 và ô 16.' }
+            ]);
+            return {
+              tag: 'Dựng fill', mode: 'steps', kind: 'snare', prompt: q.p, hint: q.h,
+              check: (cells) => ({ ok: setEq(cells, q.cells), explain: `Đáp án: ô ${q.cells.map((c) => c + 1).join(', ')}.` }),
+              answer: new Set(q.cells), play: (ans) => playDrumCells(ans, 'snare')
+            };
+          }
+          if (r < 0.6) {
+            const bar = pick([1, 2, 3]);
+            return choiceQ('Luyện tai', 'Nghe 4 ô nhịp. Fill nằm ở ô thứ mấy?', [`Ô ${bar + 1}`, ...['Ô 1', 'Ô 2', 'Ô 3', 'Ô 4'].filter((x) => x !== `Ô ${bar + 1}`)],
+              `Fill ở ô ${bar + 1}, sau đó có crash báo đầu câu mới.`, { listen: () => playGrooveBars(4, { fillBar: bar, bpm: 96 }) });
+          }
+          const bank = [
+            ['Fill thường đặt ở đâu?', 'Ô cuối của câu 4 hoặc 8 ô, trước đoạn mới', 'Ô đầu tiên của bài', 'Giữa mọi ô nhịp', 'Chỉ ở cuối bài'],
+            ['Ngay sau fill, phách 1 của đoạn mới thường có gì?', 'Crash và kick', 'Im lặng hoàn toàn', 'Chỉ hi-hat', 'Ghost note'],
+            ['Cách tạo cảm giác "dồn" trong fill?', 'Tăng mật độ nốt và lực đánh dần', 'Giảm dần số nốt', 'Đánh cùng một lực thật nhỏ', 'Đổi tempo chậm lại'],
+            ['Ghost note snare có velocity khoảng bao nhiêu?', '20–50', '110–127', '127', '0'],
+            ['Tom trong fill thường đi theo hướng nào?', 'Từ tom cao xuống tom thấp', 'Luôn tom thấp', 'Từ thấp lên cao rồi dừng', 'Không dùng tom'],
+            ['Trong Trap, cái gì hay thay cho fill snare cuối câu?', 'Hi-hat roll 1/32 hoặc chùm ba', 'Tiếng đàn dây', 'Pedal piano', 'Tắt hết trống']
+          ];
+          const [p, ...o] = pick(bank);
+          return choiceQ('Kiến thức trống', p, o);
+        },
+        daw: [
+          'Dựng 4 ô groove, copy ra 8 ô. Ở nửa sau ô 4 và ô 8, xoá hi-hat và vẽ snare/tom theo móc kép.',
+          'Velocity của fill tăng dần, ví dụ 60 → 80 → 100 → 120. Tom xếp từ cao (high tom) xuống thấp (floor tom).',
+          'Đặt crash và kick ở phách 1 của ô 9 (đầu đoạn mới).',
+          'Ghost note: thêm vài nốt snare velocity 25–45 ở các ô giữa phách (ví dụ ô 8, ô 11, ô 16).',
+          'Trap: ở ô cuối câu, đổi lưới sang 1/32 và vẽ hi-hat roll, có thể tăng cao độ dần để nghe "bốc".'
+        ]
+      },
+      melody: {
+        id: 'melody', title: 'Viết hook và giai điệu',
+        theory: `<p><b>Hook</b> là câu nhạc ngắn, dễ nhớ, lặp lại nhiều lần. Bạn không cần năng khiếu, chỉ cần vài nguyên tắc:</p>
+          ${formula([{ t: '1. Dùng ngũ cung', k: 1 }, '2. Đi bậc liền nhiều hơn nhảy', '3. Lặp nhịp, đổi nốt', { t: '4. Kết về chủ âm', k: 1 }])}
+          <p><b>Hỏi – đáp:</b> câu 1 dừng ở nốt "còn dở" (bậc 2, 4 hoặc b7), câu 2 trả lời bằng cách kết về chủ âm. Giữ nguyên nhịp của câu 1 cho câu 2, chỉ đổi vài nốt cuối: người nghe nhớ nhịp trước, nhớ nốt sau.</p>
+          <p><b>Nốt trong hợp âm:</b> nốt rơi vào phách mạnh nên là nốt có trong hợp âm đang chơi; nốt ngoài hợp âm đặt ở phách yếu làm nốt lướt.</p>`,
+        demos: [
+          { label: 'Câu hỏi (dừng ở G)', run: () => pianoNotes([69, 72, 69, 67, 64, 67], 0.3, 0.3) },
+          { label: 'Câu đáp (về A)', run: () => pianoNotes([69, 72, 69, 67, 64, 69], 0.3, 0.3) },
+          { label: 'Hỏi rồi đáp', run: () => { pianoNotes([69, 72, 69, 67, 64, 67], 0.3, 0.3); [69, 72, 69, 67, 64, 69].forEach((m, i) => audio.playRhodesNote(m, 2.1 + i * 0.3, 0.3, 0.8)); } }
+        ],
+        gen() {
+          if (Math.random() < 0.45) {
+            const firstEnds = Math.random() < 0.5;
+            const q = [69, 72, 69, 67, 64, 67], a = [69, 72, 69, 67, 64, 69];
+            return choiceQ('Luyện tai', 'Nghe 2 câu. Câu nào kết trọn vẹn (về chủ âm A)?', firstEnds ? ['Câu 1', 'Câu 2'] : ['Câu 2', 'Câu 1'],
+              'Câu kết về A nghe như "đã xong"; câu dừng ở G nghe như còn đang hỏi.',
+              { listen: () => { pianoNotes(firstEnds ? a : q, 0.28, 0.28); setTimeout(() => pianoNotes(firstEnds ? q : a, 0.28, 0.28), 2200); } });
+          }
+          const root = pick([9, 4, 2, 0, 7]);
+          const pent = [0, 3, 5, 7, 10].map((x) => pcOf(root + x));
+          return {
+            tag: 'Sáng tác', mode: 'multi', selSeq: true, given: [48 + root],
+            prompt: `Viết một hook 4–8 nốt chỉ dùng <span class="hl">${nn(root)} ngũ cung thứ</span> và kết thúc bằng nốt <span class="hl">${nn(root)}</span>`,
+            hint: `Bấm theo thứ tự giai điệu (bấm lại để bỏ một nốt). 5 nốt được dùng: ${pent.map(nn).join(' ')}. Bấm "Nghe phần đã chọn" để nghe lại.`,
+            check: (sel) => {
+              const okLen = sel.length >= 4 && sel.length <= 8;
+              const okNotes = sel.every((m) => pent.includes(pcOf(m)));
+              const okEnd = pcOf(sel[sel.length - 1]) === pcOf(root);
+              const why = [!okLen && 'cần 4 đến 8 nốt', !okNotes && `có nốt ngoài ngũ cung (${sel.filter((m) => !pent.includes(pcOf(m))).map(nn).join(', ')})`, !okEnd && `nốt cuối phải là ${nn(root)}`].filter(Boolean).join('; ');
+              return { ok: okLen && okNotes && okEnd, explain: okLen && okNotes && okEnd ? `Giai điệu của bạn: <span class="mono">${sel.map(midiToNoteLabel).join(' ')}</span>. Thử viết thêm một câu hỏi dừng ở ${nn(root + 10)} rồi ghép với câu này.` : `Chưa đạt: ${why}.` };
+            }
+          };
+        },
+        daw: [
+          'Tạo track lead, bật loop 4 ô với vòng hợp âm của bạn.',
+          'Ô 1: vẽ câu hỏi bằng ngũ cung, dừng ở nốt "còn dở". Ô 2: copy ô 1, đổi 1–2 nốt cuối để kết về chủ âm.',
+          'Ô 3–4: lặp ô 1–2, có thể đổi một chi tiết nhỏ ở ô 4 để tạo bất ngờ.',
+          'Hát nhại theo hook. Nếu hát được và nhớ được sau một lần nghe, hook đó dùng được.'
+        ]
+      }
+    };
+
+    function makeReview(chapterIdx, ids) {
+      return {
+        id: `review-${chapterIdx}`, title: 'Ôn tập chương', need: 8,
+        theory: `<p>Bài ôn tập trộn ngẫu nhiên câu hỏi từ mọi bài trong chương. Cần <b>8 câu đúng</b> để hoàn thành. Câu nào sai, hãy quay lại bài tương ứng (tên bài hiện ở đầu câu hỏi) và làm lại vài lượt.</p>`,
+        demos: [],
+        gen() {
+          const id = pick(ids);
+          const src = LESSONS.find((l) => l.id === id);
+          const q = src.gen();
+          return { ...q, tag: `Ôn tập · ${src.title}` };
+        },
+        daw: ['Mở project của bạn và áp dụng lại ít nhất một kỹ thuật của chương này vào một đoạn 4 ô nhịp.', 'Lưu thành phiên bản mới (ví dụ beat_v2) để so sánh trước và sau.']
+      };
+    }
+
+    function buildCourse() {
+      const base = Object.fromEntries(COURSE_BASE.flatMap((c) => c.lessons).map((l) => [l.id, l]));
+      const all = { ...base, ...EXTRA_LESSONS };
+      const plan = [
+        ['Nền tảng', ['keys', 'intervals', 'major-scale', 'minor-scale', 'pentatonic']],
+        ['Hợp âm', ['triads', 'sevenths', 'inversions', 'diatonic']],
+        ['Nhạc cụ trong DAW', ['piano', 'guitar', 'strings', 'bass', 'groove', 'fills']],
+        ['Làm nhạc', ['voice-leading', 'color-chords', 'melody', 'first-beat']]
+      ];
+      return plan.map(([chapter, ids], ci) => ({ chapter, lessons: [...ids.map((id) => all[id]), makeReview(ci, ids)] }));
+    }
+
+    const COURSE = buildCourse();
+    const LESSONS = COURSE.flatMap((c, ci) => c.lessons.map((l) => ({ ...l, chapterIdx: ci, chapter: c.chapter })));
+    const COURSE_KEY = 'soullab_course_v1';
+    const NEED_CORRECT = 4;
+    const courseState = { idx: 0, done: {}, correct: 0, answered: false, q: null, selected: new Set(), cells: new Set() };
+
+    function loadCourse() {
+      try {
+        const raw = JSON.parse(localStorage.getItem(COURSE_KEY) || '{}');
+        courseState.done = raw.done || {};
+        if (Number.isInteger(raw.idx) && raw.idx < LESSONS.length) courseState.idx = raw.idx;
+      } catch (e) { /* chạy không lưu */ }
+    }
+    function saveCourse() {
+      try { localStorage.setItem(COURSE_KEY, JSON.stringify({ done: courseState.done, idx: courseState.idx })); } catch (e) { /* bỏ qua */ }
+    }
+
+    function initTabLearn() {
+      loadCourse();
+      document.getElementById('course-total').textContent = LESSONS.length;
+      renderPianoKeyboard('learn-keyboard', 48, 71, (midi, key) => {
+        audio.playRhodesNote(midi, 0, 1.2, 0.8);
+        key.classList.add('playing');
+        setTimeout(() => key.classList.remove('playing'), 150);
+        if (courseState.answered) return;
+        if (courseState.q.mode === 'single') courseState.selected = new Set([midi]);
+        else if (courseState.selected.has(midi)) courseState.selected.delete(midi);
+        else courseState.selected.add(midi);
+        syncLearnKeys();
+      });
+      document.getElementById('learn-steps').innerHTML = Array.from({ length: 16 }, (_, i) =>
+        `<button type="button" data-cell="${i}" class="${i % 4 === 0 ? 'beat' : ''}" aria-pressed="false" aria-label="Ô ${i + 1}">${i + 1}</button>`).join('');
+      document.querySelectorAll('#learn-steps [data-cell]').forEach((b) => b.addEventListener('click', () => {
+        if (courseState.answered) return;
+        const c = +b.dataset.cell;
+        courseState.cells.has(c) ? courseState.cells.delete(c) : courseState.cells.add(c);
+        b.setAttribute('aria-pressed', String(courseState.cells.has(c)));
+        if (courseState.cells.has(c)) audio.playHiHat((audio.init(), audio.ctx.currentTime), true);
+      }));
+
+      document.getElementById('practice-check').addEventListener('click', checkPractice);
+      document.getElementById('practice-hear').addEventListener('click', () => courseState.q.listen && courseState.q.listen());
+      document.getElementById('practice-skip').addEventListener('click', newPracticeQuestion);
+      document.getElementById('practice-clear').addEventListener('click', () => {
+        if (courseState.answered) return;
+        courseState.selected.clear();
+        courseState.cells.clear();
+        syncLearnKeys();
+        document.querySelectorAll('#learn-steps [data-cell]').forEach((b) => b.setAttribute('aria-pressed', 'false'));
+      });
+      document.getElementById('practice-listen').addEventListener('click', () => {
+        const q = courseState.q;
+        if (q.mode === 'steps') return courseState.cells.size ? playDrumCells(courseState.cells, q.kind || 'snare', 1) : showToast('Bật ít nhất 1 ô để nghe.', 'warn');
+        if (!courseState.selected.size) return showToast('Chọn ít nhất 1 phím để nghe.', 'warn');
+        q.selSeq ? playSeq([...courseState.selected], 0.32) : playTogether([...courseState.selected]);
+      });
+      document.getElementById('lesson-prev').addEventListener('click', () => openLesson(courseState.idx - 1));
+      document.getElementById('lesson-next').addEventListener('click', () => openLesson(courseState.idx + 1));
+      document.getElementById('practice-next-lesson').addEventListener('click', () => openLesson(courseState.idx + 1));
+
+      openLesson(courseState.idx, false);
+    }
+
+    function renderSyllabus() {
+      let n = 0;
+      document.getElementById('syllabus-list').innerHTML = COURSE.map((c, ci) => `
+        <div class="chapter">
+          <p class="label">Chương ${ci + 1} · ${c.chapter}</p>
+          <ol>${c.lessons.map((l) => {
+            const i = n++;
+            const done = courseState.done[l.id];
+            return `<li><button type="button" class="lesson-link ${done ? 'done' : ''}" data-lesson="${i}" aria-current="${i === courseState.idx}">
+              <span class="lesson-dot">${done ? '✓' : i + 1}</span><span>${l.title}</span></button></li>`;
+          }).join('')}</ol>
+        </div>`).join('');
+      document.querySelectorAll('[data-lesson]').forEach((b) => b.addEventListener('click', () => openLesson(+b.dataset.lesson)));
+      const doneCount = LESSONS.filter((l) => courseState.done[l.id]).length;
+      document.getElementById('course-done-count').textContent = doneCount;
+      document.getElementById('course-progress').style.width = `${(doneCount / LESSONS.length) * 100}%`;
+    }
+
+    function openLesson(idx, scroll = true) {
+      if (idx < 0 || idx >= LESSONS.length) return;
+      courseState.idx = idx;
+      courseState.correct = 0;
+      saveCourse();
+      const l = LESSONS[idx];
+      document.getElementById('lesson-eyebrow').textContent = `Chương ${l.chapterIdx + 1} · ${l.chapter} · Bài ${idx + 1}/${LESSONS.length}`;
+      document.getElementById('lesson-title').textContent = l.title;
+      document.getElementById('lesson-theory').innerHTML = l.theory;
+      const demos = document.getElementById('lesson-demos');
+      demos.innerHTML = '';
+      l.demos.forEach((d, i) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = i === 0 ? 'btn primary' : 'btn';
+        b.innerHTML = d.label.startsWith('Mở') ? d.label : `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4v16l13-8z"/></svg>${d.label}`;
+        b.addEventListener('click', d.run);
+        demos.appendChild(b);
+      });
+      document.getElementById('lesson-daw').innerHTML = l.daw.map((s) => `<li>${s}</li>`).join('');
+      document.getElementById('lesson-prev').disabled = idx === 0;
+      document.getElementById('lesson-next').disabled = idx === LESSONS.length - 1;
+      renderSyllabus();
+      newPracticeQuestion();
+      if (scroll) window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderDots() {
+      const l = LESSONS[courseState.idx];
+      const need = l.need || NEED_CORRECT;
+      const n = Math.min(courseState.correct, need);
+      const label = courseState.done[l.id] ? 'Đã hoàn thành' : `${n}/${need} câu đúng để xong bài`;
+      document.getElementById('practice-dots').innerHTML =
+        Array.from({ length: need }, (_, i) => `<i class="${i < n || courseState.done[l.id] ? 'on' : ''}"></i>`).join('') + `<span style="margin-left:4px">${label}</span>`;
+      document.getElementById('practice-done').hidden = !(courseState.done[l.id] && courseState.correct >= need);
+      document.getElementById('practice-next-lesson').hidden = courseState.idx === LESSONS.length - 1;
+    }
+
+    function syncLearnKeys() {
+      const q = courseState.q;
+      const given = new Set(q.given || []);
+      const sel = [...courseState.selected].sort((a, b) => a - b);
+      document.getElementById('practice-picked').textContent = q.mode === 'multi' || q.mode === 'single' ? (sel.length ? `Đã chọn: ${sel.map((m) => nn(m)).join(' ')}` : 'Đã chọn: —') : '';
+      document.querySelectorAll('#learn-keyboard [data-midi]').forEach((key) => {
+        const m = +key.dataset.midi;
+        key.classList.remove('is-root', 'is-chord', 'is-picked');
+        if (given.has(m)) key.classList.add(q.givenClass || 'is-root');
+        if (courseState.selected.has(m)) key.classList.add('is-picked');
+      });
+    }
+
+    function newPracticeQuestion() {
+      const q = LESSONS[courseState.idx].gen();
+      courseState.q = q;
+      courseState.answered = false;
+      courseState.selected.clear();
+      courseState.cells.clear();
+      document.getElementById('practice-tag').textContent = q.tag;
+      document.getElementById('practice-prompt').innerHTML = q.prompt;
+      document.getElementById('practice-hint').textContent = q.hint;
+      document.getElementById('practice-feedback').hidden = true;
+      document.getElementById('practice-hear').hidden = !q.listen;
+      if (q.listen) setTimeout(() => { if (courseState.q === q) q.listen(); }, 250);
+      const isKeys = q.mode === 'single' || q.mode === 'multi';
+      document.getElementById('practice-keys').hidden = !isKeys;
+      document.getElementById('practice-steps').hidden = q.mode !== 'steps';
+      document.getElementById('practice-choices').hidden = q.mode !== 'choice';
+      document.getElementById('practice-actions').hidden = q.mode === 'choice';
+      document.getElementById('practice-check').textContent = 'Kiểm tra';
+      document.querySelectorAll('#learn-steps [data-cell]').forEach((b) => b.setAttribute('aria-pressed', 'false'));
+      if (q.mode === 'choice') {
+        const wrap = document.getElementById('practice-choices');
+        wrap.innerHTML = '';
+        q.choices.forEach((c) => {
+          const b = document.createElement('button');
+          b.type = 'button';
+          b.className = 'opt';
+          b.innerHTML = `<span class="opt-title">${c.label}</span>`;
+          b.addEventListener('click', () => {
+            if (courseState.answered) return;
+            wrap.querySelectorAll('.opt').forEach((o, i) => {
+              const v = q.choices[i].value;
+              if (q.check(v).ok) o.classList.add('right');
+              else if (v === c.value) o.classList.add('wrong');
+            });
+            finishPractice(q.check(c.value), c.value);
+          });
+          wrap.appendChild(b);
+        });
+      }
+      syncLearnKeys();
+      renderDots();
+    }
+
+    function checkPractice() {
+      const q = courseState.q;
+      if (courseState.answered) return newPracticeQuestion();
+      if (q.mode === 'steps') {
+        if (!courseState.cells.size) return showToast('Bạn chưa bật ô nào.', 'warn');
+        return finishPractice(q.check([...courseState.cells]));
+      }
+      if (!courseState.selected.size) return showToast('Bạn chưa chọn phím nào.', 'warn');
+      finishPractice(q.check([...courseState.selected]));
+    }
+
+    function finishPractice(res) {
+      const q = courseState.q;
+      const l = LESSONS[courseState.idx];
+      courseState.answered = true;
+      if (res.ok) {
+        courseState.correct += 1;
+        trainerState.stats.xp += 5;
+        saveProgress();
+        if (courseState.correct >= (l.need || NEED_CORRECT) && !courseState.done[l.id]) {
+          courseState.done[l.id] = true;
+          saveCourse();
+          renderSyllabus();
+          showToast(`Xong bài "${l.title}"`);
+        }
+      }
+      if (q.selSeq) playSeq([...courseState.selected], 0.32);
+      else if (q.answer) {
+        if (typeof q.play === 'function') q.play(q.answer);
+        else if (q.play === 'seq') playSeq(q.answer, 0.25);
+        else playTogether(q.answer);
+      }
+      if (q.mode === 'single' || q.mode === 'multi') {
+        // Tô đáp án đúng lên bàn phím để so với lựa chọn của bạn
+        if (!res.ok && q.answer) q.answer.forEach((m) => document.querySelector(`#learn-keyboard [data-midi="${m}"]`)?.classList.add('is-root'));
+      }
+      if (q.mode === 'steps' && !res.ok) {
+        document.querySelectorAll('#learn-steps [data-cell]').forEach((b) => b.setAttribute('aria-pressed', String(q.answer.has(+b.dataset.cell))));
+      }
+      const box = document.getElementById('practice-feedback');
+      box.hidden = false;
+      box.className = `feedback ${res.ok ? 'ok' : 'bad'}`;
+      box.innerHTML = `<div class="verdict">${res.ok ? 'Đúng rồi · +5 XP' : 'Chưa đúng'}</div><div>${res.explain}${!res.ok && (q.mode === 'single' || q.mode === 'multi') ? ' Phím cam là đáp án.' : ''}</div>
+        <div><button type="button" class="btn sm" id="practice-again">Câu tiếp →</button></div>`;
+      document.getElementById('practice-again').addEventListener('click', newPracticeQuestion);
+      document.getElementById('practice-check').textContent = 'Câu tiếp';
+      renderDots();
+    }
+
+    /*************************************************************************
      * 8. ĐIỀU HƯỚNG & KHỞI TẠO
      *************************************************************************/
     function showTab(target) {
-      if (!['lab', 'loop', 'trainer'].includes(target)) target = 'lab';
+      if (!['learn', 'lab', 'loop', 'trainer'].includes(target)) target = 'learn';
       if (target !== 'loop' && loopState.isPlaying) stopLoopPlayback();
-      ['lab', 'loop', 'trainer'].forEach((t) => { document.getElementById(`tab-${t}`).hidden = t !== target; });
+      ['learn', 'lab', 'loop', 'trainer'].forEach((t) => { document.getElementById(`tab-${t}`).hidden = t !== target; });
       document.querySelectorAll('.tab').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.tab === target)));
     }
 
@@ -1741,6 +3116,7 @@
       initTabLab();
       initTabLoop();
       initTabTrainer();
+      initTabLearn();
     });
   </script>
 </body>
