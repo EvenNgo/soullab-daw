@@ -122,7 +122,7 @@
       .bar { gap: 12px; }
       .brand-name, .xp { display: none; }
       h1 { font-size: 22px; }
-      .card { padding: 16px; }
+      .card { padding: 14px 16px; }
     }
 
     /* ---------- Controls ---------- */
@@ -370,6 +370,78 @@
     .lesson-nav { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
     .done-banner { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 14px 16px; border-radius: var(--r); background: var(--ok-soft); color: var(--ok); font-weight: 500; margin-top: 16px; }
 
+    /* ---------- Bố cục toàn màn hình ---------- */
+    .wrap { max-width: none; }
+    .lesson-col { display: contents; }
+    .lesson-head { order: 1; }
+    .lesson .card:not(.practice-card):not(.lesson-daw-card) { order: 2; }
+    .practice-card { order: 3; }
+    .lesson-daw-card { order: 4; }
+    .lesson-nav { order: 5; }
+    .split > .col { display: grid; gap: 20px; align-content: start; min-width: 0; }
+
+    /* Màn hình rộng: mọi tab vừa khung, mỗi cột tự cuộn bên trong */
+    @media (min-width: 1100px) and (min-height: 620px) {
+      html, body { height: 100%; }
+      body { display: flex; flex-direction: column; overflow: hidden; }
+      header { flex: none; }
+      footer { display: none; }
+      main { flex: 1; min-height: 0; padding-block: 14px; }
+      .view { height: 100%; min-height: 0; }
+      #tab-learn, .split, .course, .lesson { grid-template-rows: minmax(0, 1fr); }
+      .scroll-col, .split > .col, .lesson-col, .syllabus, #tab-trainer {
+        overflow-y: auto; min-height: 0; scrollbar-width: thin; scrollbar-color: var(--line-strong) transparent;
+      }
+      .split { grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); align-items: stretch; }
+      .split > .col { height: 100%; padding-right: 4px; }
+      .split .grid-2 { grid-template-columns: 1fr; }
+      .loop-split { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.4fr); }
+      .loop-split .presets { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .loop-split .controls { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .course { height: 100%; grid-template-columns: 240px minmax(0, 1fr); }
+      .syllabus { position: static; height: 100%; padding-right: 6px; }
+      .lesson { height: 100%; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; }
+      .lesson-col { display: grid; gap: 16px; align-content: start; height: 100%; padding-right: 4px; }
+      .lesson-col > * { order: 0 !important; }
+      #tab-trainer { align-content: start; }
+      h1 { font-size: 22px; }
+      .view-head { margin-bottom: 0; }
+      .view-head .lede { display: none; }
+      .card { padding: 14px 16px; }
+      .card-head { margin-bottom: 12px; }
+      .split > .col, .lesson-col { gap: 14px; }
+      .stack { gap: 12px; }
+      .label { margin-bottom: 7px; }
+      .slider .hint { display: none; }
+      .opt { padding: 7px 10px; }
+      .options { gap: 5px; }
+      .root-btn { height: 32px; }
+      td { padding: 7px 10px; }
+      th { padding: 0 10px 8px; }
+      .roll-row { height: 16px; }
+      .roll { padding: 8px; gap: 3px; margin-bottom: 10px; }
+      #lab-keyboard { height: 150px !important; }
+      #learn-keyboard, #trainer-keyboard { height: 150px !important; }
+      .daw-tip > div { padding: 10px 16px; }
+      .daw-tip { margin: 12px -16px -16px; }
+      .syllabus { gap: 12px; }
+      #syllabus-list { gap: 12px !important; }
+      .lesson-link { padding: 4px 8px; font-size: 13px; }
+      .lesson-link span:last-child { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .loop-split .cell { height: 34px; }
+      .tag { white-space: nowrap; }
+      .chapter p { margin-bottom: 4px; }
+      .question { padding: 14px 16px; margin-bottom: 12px; }
+      .theory p { margin-bottom: 10px; }
+      .formula { margin: 2px 0 10px; }
+      .bar-card { gap: 8px; }
+      .bar-chord { font-size: 22px; }
+    }
+    @media (min-width: 1100px) and (min-height: 620px) and (max-width: 1360px) {
+      .course { grid-template-columns: 210px minmax(0, 1fr); }
+      .theory { font-size: 14px; }
+    }
+
     /* ---------- Toast ---------- */
     #toasts {
       position: fixed; z-index: 60; display: grid; gap: 8px; pointer-events: none;
@@ -420,7 +492,8 @@
         </aside>
 
         <article class="lesson">
-          <div>
+          <div class="lesson-col col-a">
+          <div class="lesson-head">
             <div id="lesson-eyebrow" class="eyebrow"></div>
             <h1 id="lesson-title" style="margin-top:6px"></h1>
           </div>
@@ -431,7 +504,14 @@
             <div id="lesson-demos" class="demo-row"></div>
           </div>
 
-          <div class="card">
+          <div class="lesson-nav">
+            <button id="lesson-prev" type="button" class="btn">← Bài trước</button>
+            <button id="lesson-next" type="button" class="btn">Bài sau →</button>
+          </div>
+          </div>
+          <div class="lesson-col col-b">
+
+          <div class="card practice-card">
             <div class="practice-head">
               <h2>Thực hành</h2>
               <div id="practice-dots" class="dots"></div>
@@ -458,21 +538,18 @@
             </div>
           </div>
 
-          <div class="card">
+          <div class="card lesson-daw-card">
             <p class="label">Làm trên DAW</p>
             <ol id="lesson-daw" class="daw-steps"></ol>
           </div>
-
-          <div class="lesson-nav">
-            <button id="lesson-prev" type="button" class="btn">← Bài trước</button>
-            <button id="lesson-next" type="button" class="btn">Bài sau →</button>
           </div>
         </article>
       </div>
     </section>
 
     <!-- ============ TAB 1: HỢP ÂM & THANG ÂM ============ -->
-    <section id="tab-lab" class="view" hidden>
+    <section id="tab-lab" class="view split" hidden>
+      <div class="col">
       <div class="view-head">
         <div>
           <h1>Hợp âm &amp; Thang âm</h1>
@@ -530,6 +607,8 @@
         </div>
       </div>
 
+      </div>
+      <div class="col">
       <div class="card">
         <div class="card-head">
           <h2>Piano roll &amp; bàn phím <span class="muted mono" style="font-weight:400;font-size:12px">C2 – B4</span></h2>
@@ -563,10 +642,12 @@
           <div><b>3. So với piano roll</b><p>Các nốt trong DAW sẽ khớp màu và vị trí với piano roll phía trên.</p></div>
         </div>
       </div>
+      </div>
     </section>
 
     <!-- ============ TAB 2: VÒNG HỢP ÂM ============ -->
-    <section id="tab-loop" class="view" hidden>
+    <section id="tab-loop" class="view split loop-split" hidden>
+      <div class="col">
       <div class="view-head">
         <div>
           <h1>Vòng hợp âm 4 ô nhịp</h1>
@@ -612,6 +693,8 @@
         </div>
       </div>
 
+      </div>
+      <div class="col">
       <div id="four-bar-container" class="bars"></div>
 
       <div class="card">
@@ -621,6 +704,7 @@
         </div>
         <div id="drum-grid-visualizer" class="steps"></div>
         <div id="preset-analysis-box" class="analysis"></div>
+      </div>
       </div>
     </section>
 
@@ -2962,6 +3046,7 @@
       document.getElementById('lesson-next').disabled = idx === LESSONS.length - 1;
       renderSyllabus();
       newPracticeQuestion();
+      document.querySelectorAll('.lesson-col').forEach((c) => { c.scrollTop = 0; });
       if (scroll) window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
